@@ -3,13 +3,23 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --brand-yellow: #ffd900;
+  --brand-ink: #0c0c0c;
+  --footer: #000000;
+  --footer-muted: rgba(204, 204, 204, 0.8);
+  --accent: #2f6f4e;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-brand-yellow: var(--brand-yellow);
+  --color-brand-ink: var(--brand-ink);
+  --color-footer: var(--footer);
+  --color-footer-muted: var(--footer-muted);
+  --color-accent: var(--accent);
+  --text-nav: 1.1875rem;
+  --font-sans: var(--font-noto-sans-kr);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +32,26 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), sans-serif;
+}
+
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-in {
+  animation: hero-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-in {
+    animation: none;
+  }
 }
