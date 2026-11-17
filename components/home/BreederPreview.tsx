@@ -30,15 +30,15 @@ export default function BreederPreview() {
         sizes="100vw"
       />
 
-      <div className="relative mx-auto max-w-300 px-5 lg:px-0">
+      <div className="relative mx-auto max-w-360 px-5">
         <div className="flex flex-col gap-3">
-          <p className="text-sm font-semibold tracking-[0.2em] text-white">
+          <p className="text-sm font-semibold text-white">
             ABOUT
           </p>
           <h2 className="text-2xl font-semibold text-white sm:text-3xl lg:text-[40px]">
             브리더 소개
           </h2>
-          <p className="text-base text-white/70 sm:text-lg">
+          <p className="text-base text-white sm:text-lg">
             세대를 이어가는 GECODE의 개체들을 소개합니다.
           </p>
         </div>
@@ -58,7 +58,7 @@ export default function BreederPreview() {
             <Link
               key={breeder.code}
               href="/breeder"
-              className="group relative block aspect-[380/525] overflow-hidden border border-white/60"
+              className="group relative block aspect-380/525 overflow-hidden border border-white/60"
             >
               <Image
                 src={breeder.image}

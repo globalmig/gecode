@@ -22,9 +22,9 @@ export default function BrandIntro() {
         />
       </div>
 
-      <div className="relative mx-auto max-w-300 px-5 lg:px-0">
+      <div className="relative mx-auto max-w-360 px-5">
         <div className="max-w-md">
-          <p className="text-sm font-semibold tracking-[0.2em] text-black">
+          <p className="text-sm font-semibold text-black">
             ABOUT GECODE
           </p>
           <h2 className="mt-3 text-2xl font-semibold leading-snug sm:text-3xl lg:text-[40px]">
@@ -32,7 +32,7 @@ export default function BrandIntro() {
             <br />
             브리딩을 만듭니다.
           </h2>
-          <p className="mt-5 text-base leading-relaxed text-foreground/65 sm:text-lg">
+          <p className="mt-5 leading-relaxed sm:text-lg">
             GECODE는 단순한 애완동물이 아닌,
             <br />
             하나의 생명으로서 존중하며
@@ -41,7 +41,7 @@ export default function BrandIntro() {
           </p>
           <Link
             href="/about"
-            className="mt-6 inline-flex items-center gap-1.5 text-base font-medium text-black transition-colors hover:text-accent"
+            className="mt-6 inline-flex items-center gap-1.5 text-base font-medium text-black transition-colors hover:text-black/70"
           >
             GECODE 자세히 보기
             <ChevronRightIcon className="h-2 w-3.5 -rotate-90" />

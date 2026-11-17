@@ -27,7 +27,7 @@ const SECTIONS = [
 
 export default function CareSheetPage() {
   return (
-    <div className="mx-auto flex max-w-300 flex-col gap-10 px-5 py-16">
+    <div className="mx-auto flex max-w-360 flex-col gap-10 px-5 py-16">
       <JsonLd
         data={[
           breadcrumbJsonLd([

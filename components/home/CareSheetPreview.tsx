@@ -24,27 +24,27 @@ const CARE_ITEMS = [
 export default function CareSheetPreview() {
   return (
     <section className="w-full bg-[#f1f1f1] py-16 sm:py-20 lg:py-28">
-      <div className="mx-auto flex max-w-300 flex-col items-center gap-3 px-5 text-center lg:px-0">
-        <p className="text-sm font-semibold tracking-[0.2em] text-black">
+      <div className="mx-auto flex max-w-360 flex-col items-center gap-3 px-5 text-center">
+        <p className="text-sm font-semibold text-black">
           CARE SHEET
         </p>
         <h2 className="text-2xl font-semibold sm:text-3xl lg:text-[40px]">
           건강한 일상을 위한 작은 가이드
         </h2>
-        <p className="max-w-2xl text-base text-foreground/60 sm:text-lg">
+        <p className="text-base sm:text-lg">
           새로운 환경에서도 편안하게 적응하고 건강하게 성장할 수 있도록 필요한
           케어 정보를 안내합니다.
         </p>
       </div>
 
-      <div className="mx-auto mt-10 grid max-w-300 grid-cols-1 gap-6 px-5 sm:grid-cols-3 sm:gap-5 lg:mt-14 lg:gap-6 lg:px-0">
+      <div className="mx-auto mt-10 grid max-w-360 grid-cols-1 gap-6 px-5 sm:grid-cols-3 sm:gap-5 lg:mt-14 lg:gap-6">
         {CARE_ITEMS.map((item) => (
           <Link
             key={item.title}
             href="/care-sheet"
             className="group block overflow-hidden bg-white transition-transform duration-300 ease-out hover:-translate-y-1"
           >
-            <div className="relative aspect-[517/413] w-full overflow-hidden">
+            <div className="relative aspect-517/413 w-full overflow-hidden">
               <Image
                 src={item.image}
                 alt={item.title}
@@ -57,7 +57,7 @@ export default function CareSheetPreview() {
               <p className="text-lg font-semibold sm:text-xl lg:text-2xl">
                 {item.title}
               </p>
-              <p className="mt-2 text-sm text-[#555] sm:text-base">
+              <p className="mt-2 text-sm text-black/60 sm:text-base">
                 {item.note}
               </p>
             </div>
@@ -65,10 +65,10 @@ export default function CareSheetPreview() {
         ))}
       </div>
 
-      <div className="mx-auto mt-10 flex max-w-300 justify-center px-5 lg:mt-14 lg:px-0">
+      <div className="mx-auto mt-10 flex max-w-360 justify-center px-5 lg:mt-14">
         <Link
           href="/care-sheet"
-          className="inline-flex items-center gap-1.5 text-base font-medium text-black transition-colors hover:text-accent"
+          className="inline-flex items-center gap-1.5 text-base font-medium text-black transition-colors hover:text-black/70"
         >
           케어시트 자세히보기
           <ChevronRightIcon className="h-2 w-3.5 -rotate-90" />

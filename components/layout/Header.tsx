@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { KAKAO_HREF, PHONE_HREF } from "@/lib/contact";
 import { siteConfig } from "@/lib/seo/config";
 import { KakaoIcon, PhoneIcon, InstagramIcon } from "@/components/common/icons";
@@ -14,26 +14,39 @@ const NAV_ITEMS = [
   { label: "케어시트", href: "/care-sheet" },
 ];
 
+const SCROLL_THRESHOLD = 20;
+
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
   const instagramHref = siteConfig.contact.instagramUrl || "#";
 
+  // 홈 화면은 상단에서 투명 배경으로 시작하므로, 스크롤 시에만 흰 배경으로 전환한다.
+  useEffect(() => {
+    if (!isHome) return;
+    const handleScroll = () => setIsScrolled(window.scrollY > SCROLL_THRESHOLD);
+    const raf = requestAnimationFrame(handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isHome]);
+
+  const isLight = !isHome || isScrolled;
+
   return (
     <header
-      className={`w-full px-5 pt-3 sm:pt-4 lg:px-5 lg:pt-6 ${isHome ? "fixed inset-x-0 top-0 z-50" : "sticky top-0 z-50"}`}
+      className={`w-full px-5 transition-colors duration-300 lg:px-5 ${
+        isHome ? "fixed inset-x-0 top-0 z-50" : "sticky top-0 z-50"
+      } ${isLight ? "bg-white" : ""}`}
     >
-      <div
-        className={`mx-auto flex h-16 max-w-300 items-center justify-between sm:h-20 lg:h-24.25 ${
-          isHome
-            ? "px-0"
-            : "rounded-full bg-white/30 px-5 backdrop-blur-md backdrop-saturate-150 sm:px-6 lg:px-8"
-        }`}
-      >
+      <div className="mx-auto flex h-16 max-w-360 items-center justify-between sm:h-20 lg:h-24.25">
         <Link href="/" className="relative h-6 w-27.5 shrink-0 sm:h-7 sm:w-35 lg:h-7.25 lg:w-45.5">
           <Image
-            src={isHome ? "/images/header-logo-white.png" : "/images/header-logo.png"}
+            src={isLight ? "/images/header-logo.png" : "/images/header-logo-white.png"}
             alt="GECODE"
             fill
             priority
@@ -48,9 +61,9 @@ export default function Header() {
               key={item.href}
               href={item.href}
               className={`text-nav font-medium transition-colors focus-visible:outline-none ${
-                isHome
-                  ? "text-white hover:text-white/70 focus-visible:text-white/70"
-                  : "text-black hover:text-accent focus-visible:text-accent"
+                isLight
+                  ? "text-black hover:text-accent focus-visible:text-accent"
+                  : "text-white hover:text-white/70 focus-visible:text-white/70"
               }`}
             >
               {item.label}
@@ -59,7 +72,44 @@ export default function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          {isHome ? (
+          {isLight ? (
+            <>
+              <a
+                href={KAKAO_HREF}
+                aria-label="카카오 상담하기"
+                className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-brand-yellow text-brand-ink transition-opacity hover:opacity-90"
+              >
+                <KakaoIcon className="h-5 w-5" />
+                <span className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black px-2.5 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                  카카오 상담하기
+                </span>
+              </a>
+              {isHome && (
+                <a
+                  href={instagramHref}
+                  aria-label="인스타그램으로 보기"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-black text-white transition-opacity hover:opacity-90"
+                >
+                  <InstagramIcon className="h-4.5 w-4.5" />
+                  <span className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black px-2.5 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                    인스타그램
+                  </span>
+                </a>
+              )}
+              <a
+                href={PHONE_HREF}
+                aria-label="전화 상담하기"
+                className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-black text-white transition-opacity hover:opacity-90"
+              >
+                <PhoneIcon className="h-4.5 w-4.5" />
+                <span className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black px-2.5 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                  전화 상담하기
+                </span>
+              </a>
+            </>
+          ) : (
             <>
               <a
                 href={KAKAO_HREF}
@@ -85,29 +135,6 @@ export default function Header() {
                 <PhoneIcon className="h-4 w-4" />
               </a>
             </>
-          ) : (
-            <>
-              <a
-                href={KAKAO_HREF}
-                aria-label="카카오 상담하기"
-                className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-brand-yellow text-brand-ink transition-opacity hover:opacity-90"
-              >
-                <KakaoIcon className="h-5 w-5" />
-                <span className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black px-2.5 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-                  카카오 상담하기
-                </span>
-              </a>
-              <a
-                href={PHONE_HREF}
-                aria-label="전화 상담하기"
-                className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-black text-white transition-opacity hover:opacity-90"
-              >
-                <PhoneIcon className="h-4.5 w-4.5" />
-                <span className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black px-2.5 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-                  전화 상담하기
-                </span>
-              </a>
-            </>
           )}
         </div>
 
@@ -119,17 +146,17 @@ export default function Header() {
           className="flex h-10 w-10 shrink-0 flex-col items-center justify-center gap-1.25 lg:hidden"
         >
           <span
-            className={`h-0.5 w-6 transition-transform ${isHome ? "bg-white" : "bg-black"} ${isMenuOpen ? "translate-y-1.75 rotate-45" : ""}`}
+            className={`h-0.5 w-6 transition-transform ${isLight ? "bg-black" : "bg-white"} ${isMenuOpen ? "translate-y-1.75 rotate-45" : ""}`}
           />
-          <span className={`h-0.5 w-6 transition-opacity ${isHome ? "bg-white" : "bg-black"} ${isMenuOpen ? "opacity-0" : ""}`} />
+          <span className={`h-0.5 w-6 transition-opacity ${isLight ? "bg-black" : "bg-white"} ${isMenuOpen ? "opacity-0" : ""}`} />
           <span
-            className={`h-0.5 w-6 transition-transform ${isHome ? "bg-white" : "bg-black"} ${isMenuOpen ? "-translate-y-1.75 -rotate-45" : ""}`}
+            className={`h-0.5 w-6 transition-transform ${isLight ? "bg-black" : "bg-white"} ${isMenuOpen ? "-translate-y-1.75 -rotate-45" : ""}`}
           />
         </button>
       </div>
 
       {isMenuOpen && (
-        <div className="mx-auto mt-3 max-w-300 rounded-[28px] border border-black/5 bg-white px-5 py-6 shadow-[0_4px_24px_rgba(0,0,0,0.08)] lg:hidden">
+        <div className="mx-auto mt-3 max-w-360 rounded-[28px] border border-black/5 bg-white px-5 py-6 shadow-[0_4px_24px_rgba(0,0,0,0.08)] lg:hidden">
           <nav className="flex flex-col gap-4">
             {NAV_ITEMS.map((item) => (
               <Link
