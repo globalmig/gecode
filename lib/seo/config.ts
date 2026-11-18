@@ -1,7 +1,7 @@
 /**
- * TODO(고객사 확정 필요): 아래 값 중 일부는 실제 도메인/연락처가 정해지면 교체해야 합니다.
+ * TODO(고객사 확정 필요): 아래 값 중 일부는 실제 도메인이 정해지면 교체해야 합니다.
  * - url: 실제 배포 도메인 (Vercel/구매 도메인 확정 전 임시값)
- * - contact.phone/kakaoUrl/instagramUrl: Header.tsx에도 동일하게 placeholder로 표시됨
+ * - contact.kakaoUrl/instagramUrl: Header.tsx에도 동일하게 placeholder로 표시됨
  * - business.legalName/registrationNumber/address: Footer.tsx 표기 기준으로 선반영함
  */
 export const siteConfig = {
@@ -22,7 +22,7 @@ export const siteConfig = {
     "반려 파충류",
   ],
   contact: {
-    phone: "",
+    phone: "010-3824-1006",
     kakaoUrl: "",
     instagramUrl: "",
   },

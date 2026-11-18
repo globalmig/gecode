@@ -49,3 +49,113 @@ export function ChevronRightIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+export function SearchIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 18 18" fill="none" className={className} aria-hidden="true">
+      <circle cx="8.111" cy="8.111" r="6.611" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M17 17L12.85 12.85" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function RefreshIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" className={className} aria-hidden="true">
+      <path
+        d="M13.65 4.35A6 6 0 1 0 14 8"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M13.9 1.5V4.8H10.6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function CloseIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 10 10" fill="none" className={className} aria-hidden="true">
+      <path d="M1 1L9 9M9 1L1 9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function EnclosureBagIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <path
+        d="M8 8V6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M6.5 8h11l.6 12.1a1.4 1.4 0 0 1-1.4 1.5H7.3a1.4 1.4 0 0 1-1.4-1.5L6.5 8Z"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+      />
+      <path d="M9 13.5h6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function WaterBowlIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <path
+        d="M4 11h16a8 8 0 0 1-16 0Z"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+      />
+      <path d="M8.5 11a3.5 3.5 0 0 1 7 0" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+      <path
+        d="M17.3 3.6c1.1 1.3 1.6 2.2 1.6 2.9a1.6 1.6 0 1 1-3.2 0c0-.7.5-1.6 1.6-2.9Z"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function HideoutIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <rect x="4" y="5" width="16" height="14" rx="1" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M4 9h16" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <path d="M8.5 11.5 14 9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <path
+        d="M9.5 19v-2a2.5 2.5 0 0 1 5 0v2"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function ThermoHygroIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <rect x="5" y="3" width="14" height="18" rx="2.5" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M8 8.5h5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+      <path d="M8 12.5h4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+      <path d="M8.5 16.5h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function TweezersIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <path d="M9.5 3 8 20.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <path d="M14.5 3 16 20.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <path d="M8.9 6h6.2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}

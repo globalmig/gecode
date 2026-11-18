@@ -35,6 +35,22 @@ body {
   font-family: var(--font-sans), sans-serif;
 }
 
+@layer components {
+  .input {
+    width: 100%;
+    border-radius: 0.25rem;
+    border: 1px solid rgb(0 0 0 / 0.2);
+    background: var(--background);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    outline: none;
+  }
+
+  .input:focus {
+    border-color: var(--accent);
+  }
+}
+
 @keyframes hero-in {
   from {
     opacity: 0;
