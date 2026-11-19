@@ -5,7 +5,7 @@ export default function AboutIntro() {
     <section className="w-full bg-[#f1f1f1] py-16 sm:py-20 lg:py-28">
       <div className="mx-auto grid max-w-360 grid-cols-1 gap-10 px-5 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-16">
         <div className="flex flex-col gap-4 lg:col-start-1 lg:row-start-1">
-          <p className="text-sm font-semibold text-black">ABOUT GECODE</p>
+          <p className="text-sm font-semibold text-black sm:text-base">ABOUT GECODE</p>
           <h1 className="text-3xl font-semibold leading-snug sm:text-4xl lg:text-[50px]">
             첫 눈맞춤의 설렘부터,
             <br />

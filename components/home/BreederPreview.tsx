@@ -32,7 +32,7 @@ export default function BreederPreview() {
 
       <div className="relative mx-auto max-w-360 px-5">
         <div className="flex flex-col gap-3">
-          <p className="text-sm font-semibold text-white">
+          <p className="text-sm font-semibold text-white sm:text-base">
             ABOUT
           </p>
           <h2 className="text-2xl font-semibold text-white sm:text-3xl lg:text-[40px]">
@@ -71,7 +71,7 @@ export default function BreederPreview() {
                 <p className="text-lg font-semibold leading-tight sm:text-xl lg:text-2xl">
                   {breeder.code}
                 </p>
-                <p className="mt-0.5 text-xs text-white/70 sm:text-sm lg:text-base">
+                <p className="mt-0.5 text-sm text-white/70 sm:text-base">
                   {breeder.englishName}
                 </p>
               </div>

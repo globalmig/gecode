@@ -73,17 +73,30 @@ export function BreederForm({ action, breeder, submitLabel, successMessage, onSu
         />
       </Field>
 
-      <Field label="성별" error={state.fieldErrors?.gender}>
-        <select
-          name="gender"
-          defaultValue={breeder?.gender ?? "unknown"}
-          className="input"
-        >
-          <option value="male">수컷</option>
-          <option value="female">암컷</option>
-          <option value="unknown">미구분</option>
-        </select>
-      </Field>
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <Field label="성별" error={state.fieldErrors?.gender}>
+          <select
+            name="gender"
+            defaultValue={breeder?.gender ?? "unknown"}
+            className="input"
+          >
+            <option value="male">수컷</option>
+            <option value="female">암컷</option>
+            <option value="unknown">미구분</option>
+          </select>
+        </Field>
+
+        <Field label="성장 단계" error={state.fieldErrors?.stage}>
+          <select
+            name="stage"
+            defaultValue={breeder?.stage ?? "adult"}
+            className="input"
+          >
+            <option value="adult">성체</option>
+            <option value="baby">베이비</option>
+          </select>
+        </Field>
+      </div>
 
       <Field label="모프" error={state.fieldErrors?.morph}>
         <input

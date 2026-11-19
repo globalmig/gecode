@@ -79,13 +79,14 @@ export async function createBreeder(
     }
   }
 
-  const { name, englishName, gender, morph, fatherName, motherName, description, displayOrder, isPublished } =
+  const { name, englishName, gender, stage, morph, fatherName, motherName, description, displayOrder, isPublished } =
     parsed.data;
 
   const { error } = await supabase.from("breeders").insert({
     name,
     english_name: englishName,
     gender,
+    stage,
     morph,
     father_name: fatherName,
     mother_name: motherName,
@@ -145,7 +146,7 @@ export async function updateBreeder(
     imageUrl = null;
   }
 
-  const { name, englishName, gender, morph, fatherName, motherName, description, displayOrder, isPublished } =
+  const { name, englishName, gender, stage, morph, fatherName, motherName, description, displayOrder, isPublished } =
     parsed.data;
 
   const { error } = await supabase
@@ -154,6 +155,7 @@ export async function updateBreeder(
       name,
       english_name: englishName,
       gender,
+      stage,
       morph,
       father_name: fatherName,
       mother_name: motherName,

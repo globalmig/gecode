@@ -12,6 +12,7 @@ const NAV_ITEMS = [
   { label: "게코드 소개", href: "/about" },
   { label: "브리더 소개", href: "/breeder" },
   { label: "케어시트", href: "/care-sheet" },
+  { label: "FAQ", href: "/faq" },
 ];
 
 const SCROLL_THRESHOLD = 20;
@@ -80,7 +81,7 @@ export default function Header() {
                 className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-brand-yellow text-brand-ink transition-opacity hover:opacity-90"
               >
                 <KakaoIcon className="h-5 w-5" />
-                <span className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black px-2.5 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                <span className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black px-2.5 py-1 text-base text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
                   카카오 상담하기
                 </span>
               </a>
@@ -93,7 +94,7 @@ export default function Header() {
                   className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-black text-white transition-opacity hover:opacity-90"
                 >
                   <InstagramIcon className="h-4.5 w-4.5" />
-                  <span className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black px-2.5 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                  <span className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black px-2.5 py-1 text-base text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
                     인스타그램
                   </span>
                 </a>
@@ -104,7 +105,7 @@ export default function Header() {
                 className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-black text-white transition-opacity hover:opacity-90"
               >
                 <PhoneIcon className="h-4.5 w-4.5" />
-                <span className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black px-2.5 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                <span className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black px-2.5 py-1 text-base text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
                   전화 상담하기
                 </span>
               </a>
@@ -156,8 +157,8 @@ export default function Header() {
       </div>
 
       {isMenuOpen && (
-        <div className="mx-auto mt-3 max-w-360 rounded-[28px] border border-black/5 bg-white px-5 py-6 shadow-[0_4px_24px_rgba(0,0,0,0.08)] lg:hidden">
-          <nav className="flex flex-col gap-4">
+        <div className="h-screen w-full bg-white px-5 py-6 lg:hidden">
+          <nav className="flex flex-col items-center gap-4">
             {NAV_ITEMS.map((item) => (
               <Link
                 key={item.href}
@@ -169,17 +170,6 @@ export default function Header() {
               </Link>
             ))}
           </nav>
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <a
-              href={KAKAO_HREF}
-              className="flex-1 rounded-full bg-brand-yellow px-5 py-2 text-center text-nav text-brand-ink"
-            >
-              카카오 상담
-            </a>
-            <a href={PHONE_HREF} className="flex-1 rounded-full bg-black px-5 py-2 text-center text-nav text-white">
-              전화 상담
-            </a>
-          </div>
         </div>
       )}
     </header>

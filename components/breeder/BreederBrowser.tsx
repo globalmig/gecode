@@ -3,16 +3,23 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { genderLabel, type Breeder, type BreederGender } from "@/lib/breeders/types";
+import { genderLabel, stageLabel, type Breeder, type BreederGender, type BreederStage } from "@/lib/breeders/types";
 import { ChevronRightIcon, CloseIcon, RefreshIcon, SearchIcon } from "@/components/common/icons";
 
 type GenderOption = "all" | BreederGender;
+type StageOption = "all" | BreederStage;
 type ParentOption = "all" | "father" | "mother";
 
 const GENDER_OPTIONS: { value: GenderOption; label: string }[] = [
   { value: "all", label: "전체" },
   { value: "male", label: genderLabel.male },
   { value: "female", label: genderLabel.female },
+];
+
+const STAGE_OPTIONS: { value: StageOption; label: string }[] = [
+  { value: "all", label: "전체" },
+  { value: "adult", label: stageLabel.adult },
+  { value: "baby", label: stageLabel.baby },
 ];
 
 const PARENT_OPTIONS: { value: ParentOption; label: string }[] = [
@@ -31,9 +38,10 @@ function useParentRoles(entries: Breeder[]) {
 
 export default function BreederBrowser({ entries }: { entries: Breeder[] }) {
   const [gender, setGender] = useState<GenderOption>("all");
+  const [stage, setStage] = useState<StageOption>("all");
   const [parentRole, setParentRole] = useState<ParentOption>("all");
   const [query, setQuery] = useState("");
-  const [openMenu, setOpenMenu] = useState<"gender" | "parent" | null>(null);
+  const [openMenu, setOpenMenu] = useState<"gender" | "stage" | "parent" | null>(null);
 
   const { fathers, mothers } = useParentRoles(entries);
 
@@ -41,6 +49,7 @@ export default function BreederBrowser({ entries }: { entries: Breeder[] }) {
     const keyword = query.trim().toLowerCase();
     return entries.filter((entry) => {
       if (gender !== "all" && entry.gender !== gender) return false;
+      if (stage !== "all" && entry.stage !== stage) return false;
       if (parentRole === "father" && !fathers.has(entry.name)) return false;
       if (parentRole === "mother" && !mothers.has(entry.name)) return false;
       if (
@@ -52,12 +61,14 @@ export default function BreederBrowser({ entries }: { entries: Breeder[] }) {
       }
       return true;
     });
-  }, [entries, gender, parentRole, query, fathers, mothers]);
+  }, [entries, gender, stage, parentRole, query, fathers, mothers]);
 
-  const hasActiveFilter = gender !== "all" || parentRole !== "all" || query.trim().length > 0;
+  const hasActiveFilter =
+    gender !== "all" || stage !== "all" || parentRole !== "all" || query.trim().length > 0;
 
   function resetFilters() {
     setGender("all");
+    setStage("all");
     setParentRole("all");
     setQuery("");
     setOpenMenu(null);
@@ -71,7 +82,7 @@ export default function BreederBrowser({ entries }: { entries: Breeder[] }) {
             type="button"
             onClick={resetFilters}
             aria-pressed={!hasActiveFilter}
-            className={`rounded-full px-5 py-2.5 text-sm font-medium transition-colors ${
+            className={`rounded-full px-5 py-2.5 text-sm font-medium transition-colors sm:text-base ${
               !hasActiveFilter
                 ? "bg-black text-white"
                 : "border border-black/10 bg-white text-black hover:border-black/30"
@@ -94,6 +105,19 @@ export default function BreederBrowser({ entries }: { entries: Breeder[] }) {
           />
 
           <FilterDropdown
+            label="성장 단계"
+            value={stage}
+            options={STAGE_OPTIONS}
+            isOpen={openMenu === "stage"}
+            onToggle={() => setOpenMenu((prev) => (prev === "stage" ? null : "stage"))}
+            onClose={() => setOpenMenu(null)}
+            onSelect={(value) => {
+              setStage(value);
+              setOpenMenu(null);
+            }}
+          />
+
+          <FilterDropdown
             label="부/모"
             value={parentRole}
             options={PARENT_OPTIONS}
@@ -106,13 +130,13 @@ export default function BreederBrowser({ entries }: { entries: Breeder[] }) {
             }}
           />
 
-          <div className="relative min-w-50 flex-1">
+          <div className="relative min-w-100 flex-1">
             <input
               type="text"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="한글 또는 영문 이름"
-              className="w-full rounded-full border border-black/10 bg-white py-2.5 pr-11 pl-5 text-sm text-black placeholder:text-black/40 focus:border-black/30 focus:outline-none"
+              className="w-full rounded-full border border-black/10 bg-white py-2.5 pr-11 pl-5 text-sm text-black placeholder:text-black/40 focus:border-black/30 focus:outline-none sm:text-base"
             />
             <SearchIcon className="pointer-events-none absolute top-1/2 right-4 h-4 w-4 -translate-y-1/2 text-black/50" />
           </div>
@@ -122,6 +146,9 @@ export default function BreederBrowser({ entries }: { entries: Breeder[] }) {
           <div className="flex flex-wrap items-center gap-2.5">
             {gender !== "all" && (
               <FilterChip label={genderLabel[gender]} onRemove={() => setGender("all")} />
+            )}
+            {stage !== "all" && (
+              <FilterChip label={stageLabel[stage]} onRemove={() => setStage("all")} />
             )}
             {parentRole !== "all" && (
               <FilterChip
@@ -135,7 +162,7 @@ export default function BreederBrowser({ entries }: { entries: Breeder[] }) {
             <button
               type="button"
               onClick={resetFilters}
-              className="inline-flex items-center gap-1.5 text-sm text-black/50 transition-colors hover:text-black"
+              className="inline-flex items-center gap-1.5 text-sm text-black transition-colors sm:text-base"
             >
               <RefreshIcon className="h-3.5 w-3.5" />
               설정 초기화
@@ -144,10 +171,10 @@ export default function BreederBrowser({ entries }: { entries: Breeder[] }) {
         )}
       </div>
 
-      <p className="text-sm text-black/50">개체 {filtered.length}마리</p>
+      <p className="text-sm text-black sm:text-base">개체 {filtered.length}마리</p>
 
       {entries.length === 0 ? (
-        <p className="rounded-lg border border-black/10 px-6 py-16 text-center text-sm text-black/50">
+        <p className="rounded-lg border border-black/10 px-6 py-16 text-center text-sm text-black sm:text-base">
           등록된 개체가 없습니다.
         </p>
       ) : filtered.length > 0 ? (
@@ -164,7 +191,7 @@ export default function BreederBrowser({ entries }: { entries: Breeder[] }) {
                     sizes="(min-width: 1024px) 33vw, 50vw"
                   />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center text-xs text-black/30">
+                  <div className="flex h-full w-full items-center justify-center text-sm text-black/30 sm:text-base">
                     사진 준비중
                   </div>
                 )}
@@ -172,14 +199,14 @@ export default function BreederBrowser({ entries }: { entries: Breeder[] }) {
               <div>
                 <p className="text-lg font-bold sm:text-xl">{entry.name}</p>
                 {entry.english_name && (
-                  <p className="text-sm text-black/50 sm:text-base">{entry.english_name}</p>
+                  <p className="text-sm text-black sm:text-base">{entry.english_name}</p>
                 )}
               </div>
             </Link>
           ))}
         </div>
       ) : (
-        <p className="rounded-lg border border-black/10 px-6 py-16 text-center text-sm text-black/50">
+        <p className="rounded-lg border border-black/10 px-6 py-16 text-center text-sm text-black sm:text-base">
           조건에 맞는 개체가 없습니다.
         </p>
       )}
@@ -212,8 +239,8 @@ function FilterDropdown<T extends string>({
         type="button"
         onClick={onToggle}
         aria-expanded={isOpen}
-        className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium transition-colors ${
-          selected ? "border-black bg-white text-black" : "border-black/10 bg-white text-black/70 hover:border-black/30"
+        className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium transition-colors sm:text-base ${
+          selected ? "border-black bg-white text-black" : "border-black/10 bg-white text-black hover:border-black/30"
         }`}
       >
         {selected ? selected.label : label}
@@ -235,8 +262,8 @@ function FilterDropdown<T extends string>({
                 key={option.value}
                 type="button"
                 onClick={() => onSelect(option.value)}
-                className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-black/5 ${
-                  option.value === value ? "font-semibold text-black" : "text-black/70"
+                className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-black/5 sm:text-base ${
+                  option.value === value ? "font-semibold text-black" : "text-black"
                 }`}
               >
                 {option.label}
@@ -251,7 +278,7 @@ function FilterDropdown<T extends string>({
 
 function FilterChip({ label, onRemove }: { label: string; onRemove: () => void }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-black/15 bg-white py-1.5 pr-2.5 pl-4 text-sm text-black">
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-black/15 bg-white py-1.5 pr-2.5 pl-4 text-sm text-black sm:text-base">
       {label}
       <button
         type="button"

@@ -88,6 +88,19 @@ export function aboutPageJsonLd() {
   };
 }
 
+/** FAQ 페이지: 질문/답변을 FAQPage 구조화 데이터로 노출해 AEO/검색 스니펫에 대응한다. */
+export function faqPageJsonLd(items: { question: string; answer: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+}
+
 /**
  * 케어시트 페이지: 6개 섹션을 articleSection으로 노출하고, speakable으로 요약 카드를
  * 음성/AI 답변 엔진이 우선 인용할 수 있도록 지정한다(AEO 대응).

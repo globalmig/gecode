@@ -49,7 +49,7 @@ export default async function BreederPage() {
           <br />
           궁금하다면?
         </h1>
-        <p className="text-base text-black/60 sm:text-lg">
+        <p className="text-base text-black sm:text-lg">
           아래의 검색 탭에서 브리더 이름과
           <br className="hidden sm:block" />
           조건을 선택하면 바로 조회할 수 있습니다.
@@ -57,7 +57,7 @@ export default async function BreederPage() {
       </div>
 
       {loadError ? (
-        <p className="rounded-lg border border-red-200 bg-red-50 px-6 py-16 text-center text-sm text-red-700">
+        <p className="rounded-lg border border-red-200 bg-red-50 px-6 py-16 text-center text-sm text-red-700 sm:text-base">
           {loadError}
         </p>
       ) : (

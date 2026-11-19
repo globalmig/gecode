@@ -24,7 +24,7 @@ export default function BrandIntro() {
 
       <div className="relative mx-auto max-w-360 px-5">
         <div className="max-w-md">
-          <p className="text-sm font-semibold text-black">
+          <p className="text-sm font-semibold text-black sm:text-base">
             ABOUT GECODE
           </p>
           <h2 className="mt-3 text-2xl font-semibold leading-snug sm:text-3xl lg:text-[40px]">

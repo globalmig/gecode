@@ -5,7 +5,7 @@ import { JsonLd } from "@/components/common/JsonLd";
 import { siteConfig } from "@/lib/seo/config";
 import { breadcrumbJsonLd } from "@/lib/seo/jsonld";
 import { getBreeder } from "@/lib/breeders/queries";
-import { genderLabel } from "@/lib/breeders/types";
+import { genderLabel, stageLabel } from "@/lib/breeders/types";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -47,6 +47,7 @@ export default async function BreederDetailPage({ params }: Props) {
   const infoRows = [
     { label: "브리더 구분", value: "GECODE" },
     { label: "성별", value: genderLabel[entry.gender] },
+    { label: "성장 단계", value: stageLabel[entry.stage] },
     { label: "모프", value: entry.morph ?? "미등록" },
     { label: "부 개체", value: entry.father_name ?? "미등록" },
     { label: "모 개체", value: entry.mother_name ?? "미등록" },
@@ -67,7 +68,7 @@ export default async function BreederDetailPage({ params }: Props) {
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl">{entry.name}</h1>
         {entry.english_name && (
-          <p className="text-lg text-black/60 sm:text-xl lg:text-2xl">{entry.english_name}</p>
+          <p className="text-lg text-black sm:text-xl lg:text-2xl">{entry.english_name}</p>
         )}
       </div>
 
@@ -83,7 +84,7 @@ export default async function BreederDetailPage({ params }: Props) {
               priority
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-sm text-black/30">
+            <div className="flex h-full w-full items-center justify-center text-sm text-black/30 sm:text-base">
               사진 준비중
             </div>
           )}
@@ -93,7 +94,7 @@ export default async function BreederDetailPage({ params }: Props) {
           {infoRows.map((row) => (
             <div key={row.label} className="flex gap-10 border-b border-black/10 py-5">
               <dt className="w-32 shrink-0 text-base font-bold sm:w-40">{row.label}</dt>
-              <dd className="text-base text-black/70">{row.value}</dd>
+              <dd className="text-base text-black">{row.value}</dd>
             </div>
           ))}
         </dl>

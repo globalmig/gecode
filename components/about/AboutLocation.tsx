@@ -27,7 +27,7 @@ export default function AboutLocation() {
     <section className="w-full bg-white py-16 sm:py-20 lg:py-28">
       <div className="mx-auto max-w-360 px-5">
         <div className="flex flex-col gap-3">
-          <p className="text-sm font-semibold text-black">ADDRESS</p>
+          <p className="text-sm font-semibold text-black sm:text-base">ADDRESS</p>
           <h2 className="text-3xl font-semibold sm:text-4xl lg:text-[50px]">
             오시는 길
           </h2>
@@ -56,7 +56,7 @@ export default function AboutLocation() {
                 className="grid grid-cols-[6rem_1fr] gap-4 py-5 sm:grid-cols-[7rem_1fr] sm:py-6"
               >
                 <dt className="font-semibold sm:text-lg">{row.label}</dt>
-                <dd className="text-black/80 sm:text-lg">{row.value}</dd>
+                <dd className="text-black sm:text-lg">{row.value}</dd>
               </div>
             ))}
 

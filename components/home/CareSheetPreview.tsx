@@ -25,7 +25,7 @@ export default function CareSheetPreview() {
   return (
     <section className="w-full bg-[#f1f1f1] py-16 sm:py-20 lg:py-28">
       <div className="mx-auto flex max-w-360 flex-col items-center gap-3 px-5 text-center">
-        <p className="text-sm font-semibold text-black">
+        <p className="text-sm font-semibold text-black sm:text-base">
           CARE SHEET
         </p>
         <h2 className="text-2xl font-semibold sm:text-3xl lg:text-[40px]">
@@ -42,7 +42,7 @@ export default function CareSheetPreview() {
           <Link
             key={item.title}
             href="/care-sheet"
-            className="group block overflow-hidden bg-white transition-transform duration-300 ease-out hover:-translate-y-1"
+            className="group block overflow-hidden bg-white"
           >
             <div className="relative aspect-517/413 w-full overflow-hidden">
               <Image
@@ -57,7 +57,7 @@ export default function CareSheetPreview() {
               <p className="text-lg font-semibold sm:text-xl lg:text-2xl">
                 {item.title}
               </p>
-              <p className="mt-2 text-sm text-black/60 sm:text-base">
+              <p className="mt-2 pb-4 text-sm text-black sm:text-base">
                 {item.note}
               </p>
             </div>

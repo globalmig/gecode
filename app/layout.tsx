@@ -23,6 +23,9 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   keywords: [...siteConfig.keywords],
   alternates: { canonical: "/" },
+  icons: {
+    icon: "/favicon.png",
+  },
   openGraph: {
     type: "website",
     locale: siteConfig.locale,

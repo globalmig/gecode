@@ -6,7 +6,7 @@ import { BreederForm } from "./BreederForm";
 import { Modal } from "./Modal";
 import { DeleteBreederButton } from "./DeleteBreederButton";
 import { updateBreeder } from "@/app/api/admin/breeders/actions";
-import { genderLabel, type Breeder } from "@/lib/breeders/types";
+import { genderLabel, stageLabel, type Breeder } from "@/lib/breeders/types";
 
 export function BreederListItem({ breeder }: { breeder: Breeder }) {
   const [open, setOpen] = useState(false);
@@ -41,7 +41,7 @@ export function BreederListItem({ breeder }: { breeder: Breeder }) {
             )}
           </div>
           <p className="text-sm text-foreground/60">
-            {genderLabel[breeder.gender]}
+            {genderLabel[breeder.gender]} · {stageLabel[breeder.stage]}
             {breeder.morph ? ` · ${breeder.morph}` : ""}
           </p>
         </div>

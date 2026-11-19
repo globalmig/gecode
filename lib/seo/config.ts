@@ -39,4 +39,5 @@ export const siteNav = [
   { title: "브리더 소개", path: "/breeder" },
   { title: "게코드 소개", path: "/about" },
   { title: "케어시트", path: "/care-sheet" },
+  { title: "FAQ", path: "/faq" },
 ] as const;
