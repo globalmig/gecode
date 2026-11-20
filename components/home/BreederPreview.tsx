@@ -1,16 +1,11 @@
+import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRightIcon } from "@/components/common/icons";
+import { listBreederPreviews } from "@/lib/breeders/queries";
+import type { Breeder } from "@/lib/breeders/types";
 
-// TODO(고객사 확정 필요): 실제 개체 코드명·사진·성별 데이터로 교체 필요.
-// 현재는 실제 매장 사인에 표기된 모프 라인명(AXANTHIC / SUPER STRIPE / MT BACK)과
-// 업계에서 통용되는 모프 명칭(PINSTRIPE)을 임시로 사용합니다.
-const BREEDER_PREVIEWS = [
-  { code: "AXANTHIC", englishName: "Axanthic", image: "/images/home/breeder-1.png" },
-  { code: "SUPER STRIPE", englishName: "Super Stripe", image: "/images/home/breeder-2.png" },
-  { code: "MT BACK", englishName: "Mt. Back", image: "/images/home/breeder-3.png" },
-  { code: "PINSTRIPE", englishName: "Pinstripe", image: "/images/home/breeder-4.png" },
-];
+const PREVIEW_COUNT = 4;
 
 export default function BreederPreview() {
   return (
@@ -53,32 +48,73 @@ export default function BreederPreview() {
           </Link>
         </div>
 
-        <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-5 lg:mt-8 lg:grid-cols-4 lg:gap-6">
-          {BREEDER_PREVIEWS.map((breeder) => (
-            <Link
-              key={breeder.code}
-              href="/breeder"
-              className="group relative block aspect-380/525 overflow-hidden border border-white/60"
-            >
-              <Image
-                src={breeder.image}
-                alt={`${breeder.code} 개체`}
-                fill
-                className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                sizes="(min-width: 1024px) 25vw, 50vw"
-              />
-              <div className="absolute inset-x-0 bottom-0 bg-black/50 px-4 py-3 text-white sm:px-5 sm:py-4">
-                <p className="text-lg font-semibold leading-tight sm:text-xl lg:text-2xl">
-                  {breeder.code}
-                </p>
-                <p className="mt-0.5 text-sm text-white/70 sm:text-base">
-                  {breeder.englishName}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <Suspense fallback={<BreederPreviewSkeleton />}>
+          <BreederPreviewGrid />
+        </Suspense>
       </div>
     </section>
+  );
+}
+
+async function BreederPreviewGrid() {
+  let breeders: Breeder[] = [];
+  try {
+    breeders = await listBreederPreviews(PREVIEW_COUNT);
+  } catch {
+    breeders = [];
+  }
+
+  if (breeders.length === 0) {
+    return <p className="mt-6 text-sm text-white/50 lg:mt-8">등록된 개체가 없습니다.</p>;
+  }
+
+  return (
+    <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-5 lg:mt-8 lg:grid-cols-4 lg:gap-6">
+      {breeders.map((breeder) => (
+        <Link
+          key={breeder.id}
+          href={`/breeder/${breeder.id}`}
+          className="group relative block aspect-380/525 overflow-hidden border border-white/60 bg-white/5"
+        >
+          {breeder.image_url ? (
+            <Image
+              src={breeder.image_url}
+              alt={`${breeder.name} 개체 사진`}
+              fill
+              className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+              sizes="(min-width: 1024px) 25vw, 50vw"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-sm text-white/30">
+              사진 준비중
+            </div>
+          )}
+          <div className="absolute inset-x-0 bottom-0 bg-black/50 px-4 py-3 text-white sm:px-5 sm:py-4">
+            <p className="text-lg font-semibold leading-tight sm:text-xl lg:text-2xl">
+              {breeder.name}
+            </p>
+            {breeder.english_name && (
+              <p className="mt-0.5 text-sm text-white/70 sm:text-base">
+                {breeder.english_name}
+              </p>
+            )}
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
+}
+
+function BreederPreviewSkeleton() {
+  return (
+    <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-5 lg:mt-8 lg:grid-cols-4 lg:gap-6">
+      {Array.from({ length: PREVIEW_COUNT }).map((_, index) => (
+        <div
+          key={index}
+          aria-hidden
+          className="aspect-380/525 animate-pulse border border-white/10 bg-white/5"
+        />
+      ))}
+    </div>
   );
 }

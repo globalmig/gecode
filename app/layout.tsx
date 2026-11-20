@@ -4,6 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FloatingButtons from "@/components/layout/FloatingButtons";
 import { JsonLd } from "@/components/common/JsonLd";
+import AosInit from "@/components/common/AosInit";
 import { siteConfig } from "@/lib/seo/config";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/jsonld";
 import "./globals.css";
@@ -50,6 +51,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="ko" className={`${notoSansKr.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
+        <AosInit />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

@@ -7,10 +7,17 @@ export default function BrandIntro() {
     <section className="relative w-full overflow-hidden bg-white py-20 sm:py-24 lg:py-32">
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <Image
+          src="/images/home/brand-gecko-mo.png"
+          alt=""
+          fill
+          className="object-cover object-right sm:hidden"
+          sizes="100vw"
+        />
+        <Image
           src="/images/home/brand-gecko.png"
           alt=""
           fill
-          className="object-cover object-right"
+          className="hidden object-cover object-right sm:block"
           sizes="100vw"
         />
         <div

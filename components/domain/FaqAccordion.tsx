@@ -66,11 +66,17 @@ export default function FaqAccordion({ categories }: { categories: FaqCategory[]
                   />
                 </button>
               </h3>
-              {isOpen && (
-                <p className="whitespace-pre-line pb-6 text-base text-black sm:text-lg">
-                  {item.answer}
-                </p>
-              )}
+              <div
+                className={`grid overflow-hidden transition-[grid-template-rows] duration-300 ease-in-out ${
+                  isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                }`}
+              >
+                <div className="min-h-0 overflow-hidden">
+                  <p className="whitespace-pre-line pb-6 text-base text-black sm:text-lg">
+                    {item.answer}
+                  </p>
+                </div>
+              </div>
             </div>
           );
         })}

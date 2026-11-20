@@ -38,10 +38,12 @@ export default function CareSheetPreview() {
       </div>
 
       <div className="mx-auto mt-10 grid max-w-360 grid-cols-1 gap-6 px-5 sm:grid-cols-3 sm:gap-5 lg:mt-14 lg:gap-6">
-        {CARE_ITEMS.map((item) => (
+        {CARE_ITEMS.map((item, index) => (
           <Link
             key={item.title}
             href="/care-sheet"
+            data-aos="fade-up"
+            data-aos-delay={index * 150}
             className="group block overflow-hidden bg-white"
           >
             <div className="relative aspect-517/413 w-full overflow-hidden">

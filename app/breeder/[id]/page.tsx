@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/common/JsonLd";
 import { siteConfig } from "@/lib/seo/config";
@@ -44,13 +45,17 @@ export default async function BreederDetailPage({ params }: Props) {
   const entry = await getBreeder(id);
   if (!entry) notFound();
 
-  const infoRows = [
+  const infoRows: { label: string; value: string; href?: string }[] = [
     { label: "브리더 구분", value: "GECODE" },
     { label: "성별", value: genderLabel[entry.gender] },
     { label: "성장 단계", value: stageLabel[entry.stage] },
     { label: "모프", value: entry.morph ?? "미등록" },
-    { label: "부 개체", value: entry.father_name ?? "미등록" },
-    { label: "모 개체", value: entry.mother_name ?? "미등록" },
+    entry.father
+      ? { label: "부 개체", value: entry.father.name, href: `/breeder/${entry.father.id}` }
+      : { label: "부 개체", value: "미등록" },
+    entry.mother
+      ? { label: "모 개체", value: entry.mother.name, href: `/breeder/${entry.mother.id}` }
+      : { label: "모 개체", value: "미등록" },
   ];
 
   return (
@@ -73,7 +78,7 @@ export default async function BreederDetailPage({ params }: Props) {
       </div>
 
       <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-        <div className="relative aspect-4/3 overflow-hidden bg-black/5">
+        <div className="relative aspect-3/4 overflow-hidden bg-black/5 lg:w-120 lg:self-start">
           {entry.image_url ? (
             <Image
               src={entry.image_url}
@@ -92,9 +97,20 @@ export default async function BreederDetailPage({ params }: Props) {
 
         <dl className="flex flex-col border-t-2 border-black">
           {infoRows.map((row) => (
-            <div key={row.label} className="flex gap-10 border-b border-black/10 py-5">
+            <div key={row.label} className="flex gap-10 border-b border-black/10 py-5 lg:py-7">
               <dt className="w-32 shrink-0 text-base font-bold sm:w-40">{row.label}</dt>
-              <dd className="text-base text-black">{row.value}</dd>
+              <dd className="text-base">
+                {row.href ? (
+                  <Link
+                    href={row.href}
+                    className="text-accent underline underline-offset-2 hover:decoration-accent"
+                  >
+                    {row.value}
+                  </Link>
+                ) : (
+                  row.value
+                )}
+              </dd>
             </div>
           ))}
         </dl>

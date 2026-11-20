@@ -60,7 +60,7 @@ export default function AboutFeatures() {
         {FEATURES.map((feature) => (
           <div
             key={feature.title}
-            className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-center lg:gap-16"
+            className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-16"
           >
             <div className="relative aspect-700/475 w-full overflow-hidden">
               <Image
@@ -71,11 +71,11 @@ export default function AboutFeatures() {
                 sizes="(min-width: 1024px) 40vw, 100vw"
               />
             </div>
-            <div className="flex flex-col gap-3 text-white sm:gap-4">
-              <h3 className="text-2xl font-semibold sm:text-3xl lg:text-[42px]">
+            <div className="flex flex-col gap-3 pt-4 text-white sm:gap-4">
+              <h3 className="text-xl font-semibold sm:text-2xl lg:text-4xl">
                 {feature.title}
               </h3>
-              <p className="text-base leading-relaxed text-white/90 sm:text-lg lg:text-xl">
+              <p className="text-base leading-relaxed text-white/90 sm:text-lg">
                 {feature.lines.map((line) => (
                   <span key={line} className="block">
                     {line}

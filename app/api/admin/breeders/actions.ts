@@ -69,17 +69,19 @@ export async function createBreeder(
     };
   }
 
-  let imageUrl: string | null = null;
   const file = formData.get("image");
-  if (file instanceof File && file.size > 0) {
-    try {
-      imageUrl = await uploadImage(supabase, file);
-    } catch (error) {
-      return { error: error instanceof Error ? error.message : "이미지 업로드에 실패했습니다." };
-    }
+  if (!(file instanceof File) || file.size === 0) {
+    return { error: "사진을 등록해주세요." };
   }
 
-  const { name, englishName, gender, stage, morph, fatherName, motherName, description, displayOrder, isPublished } =
+  let imageUrl: string | null = null;
+  try {
+    imageUrl = await uploadImage(supabase, file);
+  } catch (error) {
+    return { error: error instanceof Error ? error.message : "이미지 업로드에 실패했습니다." };
+  }
+
+  const { name, englishName, gender, stage, morph, fatherId, motherId, description, displayOrder, isPublished } =
     parsed.data;
 
   const { error } = await supabase.from("breeders").insert({
@@ -88,8 +90,8 @@ export async function createBreeder(
     gender,
     stage,
     morph,
-    father_name: fatherName,
-    mother_name: motherName,
+    father_id: fatherId,
+    mother_id: motherId,
     description,
     display_order: displayOrder,
     is_published: isPublished,
@@ -97,6 +99,8 @@ export async function createBreeder(
   });
 
   if (error) {
+    // 등록이 실패했으므로 이미 올려둔 사진이 있다면 고아 파일로 남지 않도록 정리한다.
+    await removeImage(supabase, imageUrl);
     return { error: `등록에 실패했습니다: ${error.message}` };
   }
 
@@ -129,25 +133,32 @@ export async function updateBreeder(
     .eq("id", id)
     .maybeSingle();
 
-  let imageUrl = existing?.image_url ?? null;
+  const previousImageUrl = existing?.image_url ?? null;
+  let imageUrl = previousImageUrl;
+  let uploadedImageUrl: string | null = null;
   const file = formData.get("image");
-  const removeExisting = formData.get("removeImage") === "on";
 
   if (file instanceof File && file.size > 0) {
     try {
-      const newImageUrl = await uploadImage(supabase, file);
-      await removeImage(supabase, imageUrl);
-      imageUrl = newImageUrl;
+      uploadedImageUrl = await uploadImage(supabase, file);
     } catch (error) {
       return { error: error instanceof Error ? error.message : "이미지 업로드에 실패했습니다." };
     }
-  } else if (removeExisting && imageUrl) {
-    await removeImage(supabase, imageUrl);
-    imageUrl = null;
+    imageUrl = uploadedImageUrl;
   }
 
-  const { name, englishName, gender, stage, morph, fatherName, motherName, description, displayOrder, isPublished } =
+  if (!imageUrl) {
+    if (uploadedImageUrl) await removeImage(supabase, uploadedImageUrl);
+    return { error: "사진을 등록해주세요." };
+  }
+
+  const { name, englishName, gender, stage, morph, fatherId, motherId, description, displayOrder, isPublished } =
     parsed.data;
+
+  if (fatherId === id || motherId === id) {
+    if (uploadedImageUrl) await removeImage(supabase, uploadedImageUrl);
+    return { error: "자기 자신을 부/모 개체로 선택할 수 없습니다." };
+  }
 
   const { error } = await supabase
     .from("breeders")
@@ -157,8 +168,8 @@ export async function updateBreeder(
       gender,
       stage,
       morph,
-      father_name: fatherName,
-      mother_name: motherName,
+      father_id: fatherId,
+      mother_id: motherId,
       description,
       display_order: displayOrder,
       is_published: isPublished,
@@ -167,7 +178,15 @@ export async function updateBreeder(
     .eq("id", id);
 
   if (error) {
+    // DB 반영이 실패했으므로 기존 사진은 지우지 않고, 새로 올린 파일만 정리해 고아 파일을 남기지 않는다.
+    if (uploadedImageUrl) await removeImage(supabase, uploadedImageUrl);
     return { error: `수정에 실패했습니다: ${error.message}` };
+  }
+
+  // DB가 새 image_url을 가리키도록 반영된 뒤에만 더 이상 쓰이지 않는 이전 사진을 스토리지에서 지운다.
+  // (먼저 지우면 DB 업데이트가 실패할 때 참조는 남아있는데 파일만 사라지는 불일치가 생긴다.)
+  if (imageUrl !== previousImageUrl && previousImageUrl) {
+    await removeImage(supabase, previousImageUrl);
   }
 
   revalidatePath("/admin");

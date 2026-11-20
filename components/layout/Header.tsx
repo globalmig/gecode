@@ -1,12 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { KAKAO_HREF, PHONE_HREF } from "@/lib/contact";
 import { siteConfig } from "@/lib/seo/config";
 import { KakaoIcon, PhoneIcon, InstagramIcon } from "@/components/common/icons";
+import Logo from "@/components/common/Logo";
 
 const NAV_ITEMS = [
   { label: "게코드 소개", href: "/about" },
@@ -45,15 +45,8 @@ export default function Header() {
       } ${isLight ? "bg-white" : ""}`}
     >
       <div className="mx-auto flex h-16 max-w-360 items-center justify-between sm:h-20 lg:h-24.25">
-        <Link href="/" className="relative h-6 w-27.5 shrink-0 sm:h-7 sm:w-35 lg:h-7.25 lg:w-45.5">
-          <Image
-            src={isLight ? "/images/header-logo.png" : "/images/header-logo-white.png"}
-            alt="GECODE"
-            fill
-            priority
-            className="object-contain object-left"
-            sizes="182px"
-          />
+        <Link href="/" className="shrink-0">
+          <Logo variant={isLight ? "dark" : "light"} priority />
         </Link>
 
         <nav className="hidden items-center gap-10 lg:flex">

@@ -112,7 +112,10 @@ export default function CareSheetTabs({
                 sizes="(min-width: 1024px) 50vw, 100vw"
               />
             </div>
-            <div className="flex flex-col gap-3 pt-4 lg:w-1/2">
+            <div
+              data-aos="fade-up"
+              className="flex flex-col gap-3 pt-4 lg:w-1/2"
+            >
               <h3 className="text-xl font-bold text-black sm:text-2xl lg:text-[28px]">
                 {item.title}
               </h3>
@@ -127,7 +130,7 @@ export default function CareSheetTabs({
 
       {active.id === ADOPTION_CHECKLIST_SECTION_ID && (
         <section className="flex flex-col gap-8 border-t border-black/10 pt-14 sm:gap-10 sm:pt-16">
-          <div className="flex flex-col gap-2">
+          <div data-aos="fade-up" className="flex flex-col gap-2">
             <h2 className="text-2xl font-bold sm:text-3xl">
               입양 전 준비물
             </h2>
@@ -152,7 +155,7 @@ export default function CareSheetTabs({
                     sizes="(min-width: 1024px) 232px, 96px"
                   />
                 </div>
-                <div className="flex flex-col gap-1">
+                <div data-aos="fade-up" className="flex flex-col gap-1">
                   <p className="text-base font-semibold sm:text-lg">
                     {item.title}
                   </p>

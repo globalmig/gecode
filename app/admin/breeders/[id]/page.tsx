@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { BreederForm } from "@/components/admin/BreederForm";
 import { updateBreeder } from "@/app/api/admin/breeders/actions";
-import { getBreeder } from "@/lib/breeders/queries";
+import { getBreeder, listBreederOptions } from "@/lib/breeders/queries";
 
 export const metadata: Metadata = {
   title: "브리더 수정",
@@ -13,7 +13,7 @@ export default async function EditBreederPage(
   props: PageProps<"/admin/breeders/[id]">,
 ) {
   const { id } = await props.params;
-  const breeder = await getBreeder(id);
+  const [breeder, parentOptions] = await Promise.all([getBreeder(id), listBreederOptions(id)]);
 
   if (!breeder) {
     notFound();
@@ -27,6 +27,7 @@ export default async function EditBreederPage(
       <BreederForm
         action={action}
         breeder={breeder}
+        parentOptions={parentOptions}
         submitLabel="수정하기"
         successMessage="수정되었습니다."
       />

@@ -6,9 +6,15 @@ import { BreederForm } from "./BreederForm";
 import { Modal } from "./Modal";
 import { DeleteBreederButton } from "./DeleteBreederButton";
 import { updateBreeder } from "@/app/api/admin/breeders/actions";
-import { genderLabel, stageLabel, type Breeder } from "@/lib/breeders/types";
+import { genderLabel, stageLabel, type BreederOption, type BreederWithParents } from "@/lib/breeders/types";
 
-export function BreederListItem({ breeder }: { breeder: Breeder }) {
+export function BreederListItem({
+  breeder,
+  parentOptions,
+}: {
+  breeder: BreederWithParents;
+  parentOptions: BreederOption[];
+}) {
   const [open, setOpen] = useState(false);
   const action = updateBreeder.bind(null, breeder.id);
 
@@ -57,10 +63,16 @@ export function BreederListItem({ breeder }: { breeder: Breeder }) {
         </div>
       </li>
 
-      <Modal open={open} onClose={() => setOpen(false)} title={`브리더 수정 - ${breeder.name}`}>
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        title={`브리더 수정 - ${breeder.name}`}
+        maxWidthClassName="max-w-[1000px]"
+      >
         <BreederForm
           action={action}
           breeder={breeder}
+          parentOptions={parentOptions}
           submitLabel="수정하기"
           successMessage="수정되었습니다."
           onSuccess={() => setOpen(false)}

@@ -3,8 +3,8 @@ import Link from "next/link";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { BreederListItem } from "@/components/admin/BreederListItem";
 import { NewBreederButton } from "@/components/admin/NewBreederButton";
-import { listBreedersPage } from "@/lib/breeders/queries";
-import type { Breeder } from "@/lib/breeders/types";
+import { listBreedersPage, listBreederOptions } from "@/lib/breeders/queries";
+import type { Breeder, BreederOption, BreederWithParents } from "@/lib/breeders/types";
 
 export const metadata: Metadata = {
   title: "브리더 관리",
@@ -19,10 +19,17 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
 
   let breeders: Breeder[] = [];
   let total = 0;
+  let parentOptions: BreederOption[] = [];
   let loadError: string | null = null;
 
   try {
-    ({ breeders, total } = await listBreedersPage(requestedPage, PAGE_SIZE));
+    const [page, options] = await Promise.all([
+      listBreedersPage(requestedPage, PAGE_SIZE),
+      listBreederOptions(),
+    ]);
+    breeders = page.breeders;
+    total = page.total;
+    parentOptions = options;
   } catch (error) {
     loadError =
       error instanceof Error
@@ -33,6 +40,13 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const currentPage = Math.min(requestedPage, totalPages);
 
+  const optionById = new Map(parentOptions.map((option) => [option.id, option]));
+  const breedersWithParents: BreederWithParents[] = breeders.map((breeder) => ({
+    ...breeder,
+    father: breeder.father_id ? optionById.get(breeder.father_id) ?? null : null,
+    mother: breeder.mother_id ? optionById.get(breeder.mother_id) ?? null : null,
+  }));
+
   return (
     <div className="flex flex-col gap-6">
       <AdminHeader title="브리더 소개 관리" />
@@ -41,7 +55,7 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
         <p className="text-sm text-foreground/60">
           브리더 소개 페이지에 노출되는 개체 정보를 등록, 수정, 삭제할 수 있습니다.
         </p>
-        <NewBreederButton />
+        <NewBreederButton parentOptions={parentOptions} />
       </div>
 
       {loadError && (
@@ -50,16 +64,20 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
         </p>
       )}
 
-      {!loadError && breeders.length === 0 && (
+      {!loadError && breedersWithParents.length === 0 && (
         <p className="rounded border border-foreground/10 p-6 text-center text-sm text-foreground/50">
           등록된 브리더가 없습니다. &apos;새 브리더 등록&apos;으로 첫 개체를 추가해보세요.
         </p>
       )}
 
-      {!loadError && breeders.length > 0 && (
+      {!loadError && breedersWithParents.length > 0 && (
         <ul className="flex flex-col divide-y divide-foreground/10 rounded border border-foreground/10">
-          {breeders.map((breeder) => (
-            <BreederListItem key={breeder.id} breeder={breeder} />
+          {breedersWithParents.map((breeder) => (
+            <BreederListItem
+              key={breeder.id}
+              breeder={breeder}
+              parentOptions={parentOptions.filter((option) => option.id !== breeder.id)}
+            />
           ))}
         </ul>
       )}

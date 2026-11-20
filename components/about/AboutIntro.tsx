@@ -18,23 +18,16 @@ export default function AboutIntro() {
           </p>
         </div>
 
-        <div className="relative aspect-476/591 w-full max-w-sm overflow-hidden lg:col-start-2 lg:row-start-1 lg:ml-auto lg:max-w-none">
+        <div
+          data-aos="fade-right"
+          className="relative aspect-476/591 w-full overflow-hidden lg:col-start-2 lg:row-start-1 lg:ml-auto lg:max-w-72"
+        >
           <Image
             src="/images/about/sign.png"
             alt="매장 입구에 설치된 GECODE 사인과 조명"
             fill
             className="object-cover"
             sizes="(min-width: 1024px) 38vw, 90vw"
-          />
-        </div>
-
-        <div className="relative aspect-738/982 w-full overflow-hidden lg:col-start-1 lg:row-start-2">
-          <Image
-            src="/images/about/interior.png"
-            alt="식물과 조명으로 쾌적하게 꾸며진 게코드 사육 공간 내부"
-            fill
-            className="object-cover"
-            sizes="(min-width: 1024px) 50vw, 100vw"
           />
         </div>
 
@@ -49,6 +42,19 @@ export default function AboutIntro() {
             <br />
             가장 이상적인 케어가 시작됩니다.
           </p>
+        </div>
+
+        <div
+          data-aos="fade-left"
+          className="relative aspect-738/982 w-full overflow-hidden lg:col-start-1 lg:row-start-2 lg:max-w-110"
+        >
+          <Image
+            src="/images/about/interior.png"
+            alt="식물과 조명으로 쾌적하게 꾸며진 게코드 사육 공간 내부"
+            fill
+            className="object-cover"
+            sizes="(min-width: 1024px) 50vw, 100vw"
+          />
         </div>
       </div>
     </section>

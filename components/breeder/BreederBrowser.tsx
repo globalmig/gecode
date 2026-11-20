@@ -30,8 +30,8 @@ const PARENT_OPTIONS: { value: ParentOption; label: string }[] = [
 
 function useParentRoles(entries: Breeder[]) {
   return useMemo(() => {
-    const fathers = new Set(entries.map((entry) => entry.father_name).filter((name): name is string => !!name));
-    const mothers = new Set(entries.map((entry) => entry.mother_name).filter((name): name is string => !!name));
+    const fathers = new Set(entries.map((entry) => entry.father_id).filter((id): id is string => !!id));
+    const mothers = new Set(entries.map((entry) => entry.mother_id).filter((id): id is string => !!id));
     return { fathers, mothers };
   }, [entries]);
 }
@@ -50,8 +50,8 @@ export default function BreederBrowser({ entries }: { entries: Breeder[] }) {
     return entries.filter((entry) => {
       if (gender !== "all" && entry.gender !== gender) return false;
       if (stage !== "all" && entry.stage !== stage) return false;
-      if (parentRole === "father" && !fathers.has(entry.name)) return false;
-      if (parentRole === "mother" && !mothers.has(entry.name)) return false;
+      if (parentRole === "father" && !fathers.has(entry.id)) return false;
+      if (parentRole === "mother" && !mothers.has(entry.id)) return false;
       if (
         keyword &&
         !entry.name.toLowerCase().includes(keyword) &&
@@ -130,7 +130,7 @@ export default function BreederBrowser({ entries }: { entries: Breeder[] }) {
             }}
           />
 
-          <div className="relative min-w-100 flex-1">
+          <div className="relative min-w-100 flex-1 lg:w-125 lg:flex-none">
             <input
               type="text"
               value={query}
@@ -171,24 +171,24 @@ export default function BreederBrowser({ entries }: { entries: Breeder[] }) {
         )}
       </div>
 
-      <p className="text-sm text-black sm:text-base">개체 {filtered.length}마리</p>
+      <p className="text-right text-sm text-black sm:text-base">개체 {filtered.length}마리</p>
 
       {entries.length === 0 ? (
         <p className="rounded-lg border border-black/10 px-6 py-16 text-center text-sm text-black sm:text-base">
           등록된 개체가 없습니다.
         </p>
       ) : filtered.length > 0 ? (
-        <div className="grid grid-cols-2 gap-x-4 gap-y-8 lg:grid-cols-3 lg:gap-x-6">
+        <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4 lg:gap-6">
           {filtered.map((entry) => (
             <Link key={entry.id} href={`/breeder/${entry.id}`} className="group flex flex-col gap-3">
-              <div className="relative aspect-6/5 overflow-hidden bg-black/5">
+              <div className="relative aspect-380/525 overflow-hidden bg-black/5">
                 {entry.image_url ? (
                   <Image
                     src={entry.image_url}
                     alt={`${entry.name} 개체 사진`}
                     fill
                     className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                    sizes="(min-width: 1024px) 33vw, 50vw"
+                    sizes="(min-width: 1024px) 25vw, 50vw"
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-sm text-black/30 sm:text-base">

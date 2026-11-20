@@ -16,12 +16,19 @@ export default function Hero() {
 
       <div className="relative z-10 mx-auto w-full max-w-360 px-5 text-center">
         <div className="mx-auto max-w-sm text-white sm:max-w-xl lg:max-w-3xl">
-          <h1 className="animate-hero-in text-3xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-[64px] lg:leading-[1.15]">
+          <h1
+            data-aos="fade-up"
+            className="text-3xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-[64px] lg:leading-[1.15]"
+          >
             개체마다 지닌
             <br />
             고유한 아름다움이 있습니다.
           </h1>
-          <p className="animate-hero-in mt-4 text-sm leading-relaxed text-white/85 [animation-delay:150ms] sm:mt-5 sm:text-lg lg:text-xl">
+          <p
+            data-aos="fade-up"
+            data-aos-delay="150"
+            className="mt-4 text-sm leading-relaxed text-white/85 sm:mt-5 sm:text-lg lg:text-xl"
+          >
             체계적인 코드별 혈통 관리와 누대 브리딩을 통해
             <br className="hidden sm:block" />
             더욱 높은 가치를 만들어 나갑니다.

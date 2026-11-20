@@ -60,7 +60,7 @@ export default function CareSheetPage() {
       />
 
       <div className="flex flex-col gap-10 sm:gap-12">
-        <div className="flex flex-col gap-4">
+        <div data-aos="fade-up" className="flex flex-col gap-4">
           <h1 className="text-2xl leading-tight font-bold sm:text-3xl lg:text-[40px]">
             처음 준비할 것부터
             <br />

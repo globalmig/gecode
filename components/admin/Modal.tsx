@@ -7,9 +7,10 @@ type Props = {
   onClose: () => void;
   title: string;
   children: React.ReactNode;
+  maxWidthClassName?: string;
 };
 
-export function Modal({ open, onClose, title, children }: Props) {
+export function Modal({ open, onClose, title, children, maxWidthClassName = "max-w-lg" }: Props) {
   useEffect(() => {
     if (!open) return;
 
@@ -39,7 +40,7 @@ export function Modal({ open, onClose, title, children }: Props) {
         aria-modal="true"
         aria-label={title}
         onClick={(event) => event.stopPropagation()}
-        className="flex max-h-[90vh] w-full max-w-lg flex-col gap-5 overflow-y-auto rounded-lg bg-background p-6 shadow-xl"
+        className={`flex max-h-[90vh] w-full ${maxWidthClassName} flex-col gap-5 overflow-y-auto rounded-lg bg-background p-6 shadow-xl`}
       >
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold">{title}</h2>
