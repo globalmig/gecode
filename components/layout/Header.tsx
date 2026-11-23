@@ -78,26 +78,24 @@ export default function Header() {
                   카카오 상담하기
                 </span>
               </a>
-              {isHome && (
-                <a
-                  href={instagramHref}
-                  aria-label="인스타그램으로 보기"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-black text-white transition-opacity hover:opacity-90"
-                >
-                  <InstagramIcon className="h-4.5 w-4.5" />
-                  <span className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black px-2.5 py-1 text-base text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-                    인스타그램
-                  </span>
-                </a>
-              )}
+              <a
+                href={instagramHref}
+                aria-label="인스타그램으로 보기"
+                target="_blank"
+                rel="noreferrer"
+                className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-black text-white transition-opacity hover:opacity-90"
+              >
+                <InstagramIcon className="h-4.5 w-4.5" />
+                <span className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black px-2.5 py-1 text-base text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                  인스타그램
+                </span>
+              </a>
               <a
                 href={PHONE_HREF}
                 aria-label="전화 상담하기"
-                className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-black text-white transition-opacity hover:opacity-90"
+                className="group relative flex h-10 w-10 items-center justify-center rounded-full border border-[#ccc] bg-white text-black transition-opacity hover:opacity-90"
               >
-                <PhoneIcon className="h-4.5 w-4.5" />
+                <PhoneIcon className="h-8 w-8" />
                 <span className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black px-2.5 py-1 text-base text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
                   전화 상담하기
                 </span>
@@ -124,9 +122,9 @@ export default function Header() {
               <a
                 href={PHONE_HREF}
                 aria-label="전화 상담하기"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black transition-opacity hover:opacity-90"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-[#ccc] bg-black text-white transition-opacity hover:opacity-90"
               >
-                <PhoneIcon className="h-4 w-4" />
+                <PhoneIcon className="h-8 w-8" />
               </a>
             </>
           )}

@@ -129,8 +129,8 @@ export default function CareSheetTabs({
       </div>
 
       {active.id === ADOPTION_CHECKLIST_SECTION_ID && (
-        <section className="flex flex-col gap-8 border-t border-black/10 pt-14 sm:gap-10 sm:pt-16">
-          <div data-aos="fade-up" className="flex flex-col gap-2">
+        <section className="flex flex-col gap-8 pt-14 sm:gap-10 sm:pt-16">
+          <div className="flex flex-col gap-2">
             <h2 className="text-2xl font-bold sm:text-3xl">
               입양 전 준비물
             </h2>
@@ -155,7 +155,7 @@ export default function CareSheetTabs({
                     sizes="(min-width: 1024px) 232px, 96px"
                   />
                 </div>
-                <div data-aos="fade-up" className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1">
                   <p className="text-base font-semibold sm:text-lg">
                     {item.title}
                   </p>

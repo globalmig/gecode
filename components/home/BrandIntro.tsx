@@ -4,7 +4,7 @@ import { ChevronRightIcon } from "@/components/common/icons";
 
 export default function BrandIntro() {
   return (
-    <section className="relative w-full overflow-hidden bg-white py-20 sm:py-24 lg:py-32">
+    <section className="relative w-full overflow-hidden bg-white pt-20 pb-100 sm:pt-24 lg:py-32">
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <Image
           src="/images/home/brand-gecko-mo.png"

@@ -42,7 +42,7 @@ export default function AboutFeatures() {
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <Image
           src="/images/about/texture.png"
-          alt=""
+          alt="게코드의 철학"
           fill
           className="object-cover object-bottom"
           sizes="100vw"
@@ -56,13 +56,13 @@ export default function AboutFeatures() {
         />
       </div>
 
-      <div className="relative mx-auto flex max-w-360 flex-col gap-12 px-5 sm:gap-16 lg:gap-20">
+      <div className="relative mx-auto flex max-w-360 flex-col gap-12 px-5 sm:gap-16 lg:gap-10">
         {FEATURES.map((feature) => (
           <div
             key={feature.title}
-            className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-16"
+            className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-0"
           >
-            <div className="relative aspect-700/475 w-full overflow-hidden">
+            <div className="relative aspect-700/475 w-full max-w-150 overflow-hidden">
               <Image
                 src={feature.image}
                 alt={feature.alt}
@@ -72,7 +72,7 @@ export default function AboutFeatures() {
               />
             </div>
             <div className="flex flex-col gap-3 pt-4 text-white sm:gap-4">
-              <h3 className="text-xl font-semibold sm:text-2xl lg:text-4xl">
+              <h3 className="text-xl font-semibold sm:text-2xl lg:text-3xl">
                 {feature.title}
               </h3>
               <p className="text-base leading-relaxed text-white/90 sm:text-lg">

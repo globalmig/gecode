@@ -1,6 +1,6 @@
 export function KakaoIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 19.578 19.1621" fill="none" className={className} aria-hidden="true">
+    <svg viewBox="0 -1.646 19.578 19.1621" fill="none" className={className} aria-hidden="true">
       <ellipse cx="9.789" cy="7.935" rx="9.789" ry="7.935" fill="currentColor" />
       <path d="M11.3058 18.2799L12.3505 11.9773L15.5505 13.5053L11.3058 18.2799Z" fill="currentColor" />
     </svg>

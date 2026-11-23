@@ -24,7 +24,7 @@ export const siteConfig = {
   contact: {
     phone: "010-3824-1006",
     kakaoUrl: "",
-    instagramUrl: "",
+    instagramUrl: "https://www.instagram.com/gecode.official?cnvx=M2txMnk2aGF4d3Bp",
   },
   business: {
     legalName: "게코드",

@@ -20,18 +20,18 @@ export default function AboutIntro() {
 
         <div
           data-aos="fade-right"
-          className="relative aspect-476/591 w-full overflow-hidden lg:col-start-2 lg:row-start-1 lg:ml-auto lg:max-w-72"
+          className="relative aspect-4/3 w-full overflow-hidden lg:aspect-476/591 lg:col-start-2 lg:row-start-1 lg:ml-auto lg:max-w-72"
         >
           <Image
             src="/images/about/sign.png"
             alt="매장 입구에 설치된 GECODE 사인과 조명"
             fill
-            className="object-cover"
+            className="object-cover object-bottom lg:object-center"
             sizes="(min-width: 1024px) 38vw, 90vw"
           />
         </div>
 
-        <div className="flex flex-col justify-center gap-8 lg:col-start-2 lg:row-start-2">
+        <div className="flex flex-col justify-center gap-8 lg:col-start-2 lg:row-start-2 lg:mt-60">
           <p className="text-base leading-relaxed sm:text-lg lg:text-xl">
             작은 숨결 하나까지 배려한 쾌적한 공간에서,
             <br />
@@ -46,7 +46,7 @@ export default function AboutIntro() {
 
         <div
           data-aos="fade-left"
-          className="relative aspect-738/982 w-full overflow-hidden lg:col-start-1 lg:row-start-2 lg:max-w-110"
+          className="relative mt-7.5 aspect-738/982 w-full overflow-hidden lg:col-start-1 lg:row-start-2 lg:mt-0 lg:w-150"
         >
           <Image
             src="/images/about/interior.png"

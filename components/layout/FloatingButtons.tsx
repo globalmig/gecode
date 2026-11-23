@@ -26,7 +26,7 @@ export default function FloatingButtons() {
         aria-label="전화 상담"
         className={`${BUTTON_BASE} bg-black text-white`}
       >
-        <PhoneIcon className="h-5 w-5 sm:h-5.5 sm:w-5.5" />
+        <PhoneIcon className="h-8 w-8" />
       </a>
 
       <button
