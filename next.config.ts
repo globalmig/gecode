@@ -1,13 +1,16 @@
 import type { NextConfig } from "next";
 
-// Next.js 개발 서버(next dev)는 CSP와 충돌하는 방식(eval, HMR 관련 인라인 처리 등)을 써서
-// dev 모드에서는 CSP 자체를 적용하지 않는다. 개발 환경은 외부에 노출되지 않으므로
-// 보안상 문제가 없고, 실제로 지켜야 할 대상인 프로덕션 빌드에는 그대로 적용된다.
+// 개발 모드(next dev)는 React가 서버 에러 스택을 재구성하는 데 eval을 쓰므로
+// script-src에 'unsafe-eval'이 추가로 필요하다(프로덕션 빌드는 eval을 쓰지 않아 불필요).
 const isDev = process.env.NODE_ENV === "development";
 
+// Next.js App Router는 RSC 스트리밍 데이터를 전달하기 위해 모든 페이지에 인라인 스크립트
+// (self.__next_f.push(...))를 반드시 삽입한다. nonce 기반 CSP로 이를 허용하려면 모든 페이지를
+// 완전히 동적 렌더링해야 해서 cacheComponents(Partial Prerendering)와 충돌하므로,
+// script-src에 'unsafe-inline'을 둔다(Next.js 공식 "Without Nonces" 가이드와 동일한 방식).
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
-  "script-src 'self'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https://*.supabase.co",
   "font-src 'self' data:",
@@ -19,7 +22,7 @@ const CONTENT_SECURITY_POLICY = [
 ].join("; ");
 
 const SECURITY_HEADERS = [
-  ...(isDev ? [] : [{ key: "Content-Security-Policy", value: CONTENT_SECURITY_POLICY }]),
+  { key: "Content-Security-Policy", value: CONTENT_SECURITY_POLICY },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "X-Frame-Options", value: "DENY" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
