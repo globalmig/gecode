@@ -68,7 +68,7 @@ export default function Header() {
         <div className="hidden items-center gap-3 lg:flex">
           {isLight ? (
             <>
-              <a
+              <Link
                 href={KAKAO_HREF}
                 aria-label="카카오 상담하기"
                 className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-brand-yellow text-brand-ink transition-opacity hover:opacity-90"
@@ -77,8 +77,8 @@ export default function Header() {
                 <span className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black px-2.5 py-1 text-base text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
                   카카오 상담하기
                 </span>
-              </a>
-              <a
+              </Link>
+              <Link
                 href={instagramHref}
                 aria-label="인스타그램으로 보기"
                 target="_blank"
@@ -89,8 +89,8 @@ export default function Header() {
                 <span className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black px-2.5 py-1 text-base text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
                   인스타그램
                 </span>
-              </a>
-              <a
+              </Link>
+              <Link
                 href={PHONE_HREF}
                 aria-label="전화 상담하기"
                 className="group relative flex h-10 w-10 items-center justify-center rounded-full border border-[#ccc] bg-white text-black transition-opacity hover:opacity-90"
@@ -99,18 +99,18 @@ export default function Header() {
                 <span className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black px-2.5 py-1 text-base text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
                   전화 상담하기
                 </span>
-              </a>
+              </Link>
             </>
           ) : (
             <>
-              <a
+              <Link
                 href={KAKAO_HREF}
                 aria-label="카카오 상담하기"
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-yellow text-brand-ink transition-opacity hover:opacity-90"
               >
                 <KakaoIcon className="h-4.5 w-4.5" />
-              </a>
-              <a
+              </Link>
+              <Link
                 href={instagramHref}
                 aria-label="인스타그램으로 보기"
                 target="_blank"
@@ -118,14 +118,14 @@ export default function Header() {
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white transition-opacity hover:opacity-90"
               >
                 <InstagramIcon className="h-4.5 w-4.5" />
-              </a>
-              <a
+              </Link>
+              <Link
                 href={PHONE_HREF}
                 aria-label="전화 상담하기"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-[#ccc] bg-black text-white transition-opacity hover:opacity-90"
               >
                 <PhoneIcon className="h-8 w-8" />
-              </a>
+              </Link>
             </>
           )}
         </div>

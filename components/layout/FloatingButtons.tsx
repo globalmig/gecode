@@ -1,7 +1,9 @@
 "use client";
 
 import { KAKAO_HREF, PHONE_HREF } from "@/lib/contact";
-import { KakaoIcon, PhoneIcon } from "@/components/common/icons";
+import { siteConfig } from "@/lib/seo/config";
+import { KakaoIcon, PhoneIcon, InstagramIcon } from "@/components/common/icons";
+import Link from "next/link";
 
 const BUTTON_BASE =
   "flex h-11 w-11 items-center justify-center rounded-full shadow-lg transition-transform hover:-translate-y-0.5 focus-visible:-translate-y-0.5 focus-visible:outline-none sm:h-13 sm:w-13 lg:h-14 lg:w-14";
@@ -11,23 +13,35 @@ function scrollToTop() {
 }
 
 export default function FloatingButtons() {
+  const instagramHref = siteConfig.contact.instagramUrl || "#";
+
   return (
     <div className="fixed bottom-4 right-4 z-40 flex flex-col gap-2.5 sm:bottom-6 sm:right-6 sm:gap-3 lg:bottom-10 lg:right-10">
-      <a
+      <Link
+        href={instagramHref}
+        target="_blank"
+        rel="noreferrer"
+        aria-label="인스타그램으로 보기"
+        className={`${BUTTON_BASE} bg-linear-to-tr from-[#F9CE34] via-[#d62976] to-[#6228D7] text-white`}
+      >
+        <InstagramIcon className="h-5 w-5 sm:h-5.5 sm:w-5.5" />
+      </Link>
+
+      <Link
         href={KAKAO_HREF}
         aria-label="카카오 상담"
         className={`${BUTTON_BASE} bg-brand-yellow text-brand-ink`}
       >
         <KakaoIcon className="h-5.5 w-5.5 sm:h-6 sm:w-6" />
-      </a>
+      </Link>
 
-      <a
+      <Link
         href={PHONE_HREF}
         aria-label="전화 상담"
         className={`${BUTTON_BASE} bg-black text-white`}
       >
         <PhoneIcon className="h-8 w-8" />
-      </a>
+      </Link>
 
       <button
         type="button"

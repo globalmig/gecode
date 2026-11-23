@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import Cropper, { type Area, type Point } from "react-easy-crop";
 import { UploadIcon } from "@/components/common/icons";
+import { createClient } from "@/lib/supabase/client";
+import { createImageUploadTicket } from "@/app/api/admin/breeders/actions";
 
 type Props = {
   currentImageUrl: string | null;
@@ -13,15 +15,16 @@ const IMAGE_ASPECT = 380 / 525;
 // 원본 사진 자체는 서버로 전송되지 않지만(브라우저에서 크롭 후 결과물만 업로드),
 // 과도하게 큰 원본을 캔버스로 디코딩하면 느려지므로 선택 단계에서만 가볍게 제한한다.
 const MAX_SOURCE_SIZE = 20 * 1024 * 1024;
-// 결과물 용량을 안정적으로 작게 유지하기 위한 출력 폭 상한(px). 서버 액션 요청 본문 제한(8MB)과 무관하게 항상 여유가 생긴다.
+// 결과물 용량을 작게 유지하기 위한 출력 폭 상한(px).
 const MAX_OUTPUT_WIDTH = 960;
 
 export function BreederImageField({ currentImageUrl }: Props) {
   const sourceInputRef = useRef<HTMLInputElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const imagePathInputRef = useRef<HTMLInputElement>(null);
   const objectUrlsRef = useRef<string[]>([]);
 
   const [cropping, setCropping] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [originalSrc, setOriginalSrc] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -79,14 +82,39 @@ export function BreederImageField({ currentImageUrl }: Props) {
   async function handleConfirm() {
     if (!originalSrc || !area) return;
 
+    setUploading(true);
+    setError(null);
     try {
       const blob = await cropToBlob(originalSrc, area);
-      setFormFile(fileInputRef.current, blob, "breeder.jpg");
+
+      // 서버(Vercel 서버 액션)로는 업로드 티켓만 요청하고, 실제 사진 바이트는
+      // 브라우저에서 Supabase Storage로 직접 전송한다. Vercel 요청 본문 크기 제한과 무관해진다.
+      const ticket = await createImageUploadTicket();
+      if ("error" in ticket) {
+        setError(ticket.error);
+        return;
+      }
+
+      const supabase = createClient();
+      const { error: uploadError } = await supabase.storage
+        .from("breeders")
+        .uploadToSignedUrl(ticket.path, ticket.token, blob, { contentType: "image/jpeg" });
+
+      if (uploadError) {
+        setError(`이미지 업로드에 실패했습니다: ${uploadError.message}`);
+        return;
+      }
+
+      if (imagePathInputRef.current) {
+        imagePathInputRef.current.value = ticket.path;
+      }
       setPreview(trackUrl(URL.createObjectURL(blob)));
       setCropping(false);
       setOriginalSrc(null);
     } catch {
       setError("사진 크롭 처리에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setUploading(false);
     }
   }
 
@@ -171,17 +199,18 @@ export function BreederImageField({ currentImageUrl }: Props) {
                 setCropping(false);
                 setOriginalSrc(null);
               }}
-              className="text-sm text-foreground/50 hover:text-foreground"
+              disabled={uploading}
+              className="text-sm text-foreground/50 hover:text-foreground disabled:opacity-50"
             >
               취소
             </button>
             <button
               type="button"
               onClick={handleConfirm}
-              disabled={!area}
+              disabled={!area || uploading}
               className="rounded bg-accent px-3 py-1.5 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50"
             >
-              완료
+              {uploading ? "업로드 중..." : "완료"}
             </button>
           </div>
         </div>
@@ -194,19 +223,11 @@ export function BreederImageField({ currentImageUrl }: Props) {
         onChange={handleSourceSelected}
         className="hidden"
       />
-      <input ref={fileInputRef} name="image" type="file" accept="image/*" className="hidden" />
+      <input ref={imagePathInputRef} name="imagePath" type="hidden" defaultValue="" />
 
       {error && <p className="text-xs text-red-600">{error}</p>}
     </div>
   );
-}
-
-function setFormFile(input: HTMLInputElement | null, blob: Blob, filename: string) {
-  if (!input) return;
-  const file = new File([blob], filename, { type: blob.type || "image/jpeg" });
-  const dataTransfer = new DataTransfer();
-  dataTransfer.items.add(file);
-  input.files = dataTransfer.files;
 }
 
 async function cropToBlob(imageSrc: string, area: Area): Promise<Blob> {

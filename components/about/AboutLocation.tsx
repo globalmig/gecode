@@ -1,6 +1,7 @@
 import { KAKAO_HREF, PHONE_NUMBER } from "@/lib/contact";
 import { siteConfig } from "@/lib/seo/config";
 import { KakaoIcon, InstagramIcon } from "@/components/common/icons";
+import Link from "next/link";
 
 const MAP_QUERY = encodeURIComponent(`${siteConfig.name} ${siteConfig.business.address}`);
 const MAP_EMBED_SRC = `https://www.google.com/maps?q=${MAP_QUERY}&output=embed`;
@@ -16,7 +17,13 @@ const INFO_ROWS = [
       </>
     ),
   },
-  { label: "영업시간", value: "평일·주말 14:00 ~ 20:00 운영" },
+  {
+    label: "영업시간", value: (<>
+      평일·주말 14:00 ~ 20:00 운영
+      <br />
+      예약제 (방문 전 연락 필수)
+    </>)
+  },
   { label: "연락처", value: PHONE_NUMBER },
 ] as const;
 
@@ -63,14 +70,14 @@ export default function AboutLocation() {
             <div className="grid grid-cols-[6rem_1fr] items-center gap-4 py-5 sm:grid-cols-[7rem_1fr] sm:py-6">
               <dt className="font-semibold sm:text-lg">SNS 채널</dt>
               <dd className="flex items-center gap-3">
-                <a
+                <Link
                   href={KAKAO_HREF}
                   aria-label="카카오 상담하기"
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-yellow text-brand-ink transition-opacity hover:opacity-90"
                 >
                   <KakaoIcon className="h-4.5 w-4.5" />
-                </a>
-                <a
+                </Link>
+                <Link
                   href={instagramHref}
                   aria-label="인스타그램으로 보기"
                   target="_blank"
@@ -78,7 +85,7 @@ export default function AboutLocation() {
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white transition-opacity hover:opacity-90"
                 >
                   <InstagramIcon className="h-4.5 w-4.5" />
-                </a>
+                </Link>
               </dd>
             </div>
           </dl>

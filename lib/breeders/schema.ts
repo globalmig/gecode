@@ -10,6 +10,15 @@ const optionalText = (max: number) =>
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
+const optionalPrice = z
+  .string()
+  .trim()
+  .nullable()
+  .transform((value) => (value ? Number(value) : null))
+  .refine((value) => value === null || (Number.isFinite(value) && value >= 0), {
+    message: "분양가를 올바르게 입력해주세요.",
+  });
+
 const optionalParentId = z
   .string()
   .trim()
@@ -25,6 +34,7 @@ export const breederFormSchema = z.object({
   gender: z.enum(["male", "female", "unknown"]),
   stage: z.enum(["adult", "baby"]),
   morph: optionalText(50),
+  price: optionalPrice,
   fatherId: optionalParentId,
   motherId: optionalParentId,
   description: optionalText(2000),
@@ -47,6 +57,7 @@ export function parseBreederFormData(formData: FormData) {
     gender: formData.get("gender"),
     stage: formData.get("stage"),
     morph: formData.get("morph"),
+    price: formData.get("price"),
     fatherId: formData.get("fatherId"),
     motherId: formData.get("motherId"),
     description: formData.get("description"),

@@ -72,8 +72,8 @@ export function BreederForm({
           return;
         }
 
-        const imageInput = form.elements.namedItem("image") as HTMLInputElement | null;
-        const hasNewImage = !!imageInput?.files?.length;
+        const imagePathInput = form.elements.namedItem("imagePath") as HTMLInputElement | null;
+        const hasNewImage = !!imagePathInput?.value;
         if (!hasNewImage && !breeder?.image_url) {
           event.preventDefault();
           alert("사진을 등록해주세요.");
@@ -126,14 +126,27 @@ export function BreederForm({
         </Field>
       </div>
 
-      <Field label="모프" error={state.fieldErrors?.morph}>
-        <input
-          name="morph"
-          defaultValue={breeder?.morph ?? ""}
-          maxLength={50}
-          className="input"
-        />
-      </Field>
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <Field label="모프" error={state.fieldErrors?.morph}>
+          <input
+            name="morph"
+            defaultValue={breeder?.morph ?? ""}
+            maxLength={50}
+            className="input"
+          />
+        </Field>
+
+        <Field label="분양가" error={state.fieldErrors?.price}>
+          <input
+            name="price"
+            type="number"
+            min={0}
+            step={1}
+            defaultValue={breeder?.price ?? ""}
+            className="input"
+          />
+        </Field>
+      </div>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <ParentPicker

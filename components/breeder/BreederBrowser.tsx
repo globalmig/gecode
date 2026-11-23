@@ -201,6 +201,9 @@ export default function BreederBrowser({ entries }: { entries: Breeder[] }) {
                 {entry.english_name && (
                   <p className="text-sm text-black sm:text-base">{entry.english_name}</p>
                 )}
+                <p className="mt-2 lg:mt-4 text-base font-bold text-accent sm:text-lg">
+                  {entry.price != null ? `${entry.price.toLocaleString("ko-KR")}원` : "가격 문의"}
+                </p>
               </div>
             </Link>
           ))}

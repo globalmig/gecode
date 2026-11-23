@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "브리더 관리",
 };
 
+// 로그인 세션 쿠키를 읽는 Supabase 클라이언트로 매 요청 조회하므로 instant navigation 검증 대상에서 제외한다.
+export const instant = false;
+
 const PAGE_SIZE = 10;
 
 export default async function AdminPage({ searchParams }: PageProps<"/admin">) {

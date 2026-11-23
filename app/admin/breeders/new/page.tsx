@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: "새 브리더 등록",
 };
 
+// 로그인 세션 쿠키를 읽는 Supabase 클라이언트로 매 요청 조회하므로 instant navigation 검증 대상에서 제외한다.
+export const instant = false;
+
 export default async function NewBreederPage() {
   const parentOptions = await listBreederOptions();
 

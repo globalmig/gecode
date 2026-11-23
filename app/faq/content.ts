@@ -149,7 +149,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
     items: [
       {
         question: "상담 가능한 시간은 언제인가요?",
-        answer: "평일·주말 14:00 ~ 20:00 운영합니다.",
+        answer: "평일·주말 14:00 ~ 20:00 운영하고 있습니다. 예약제로 운영하고 있어 방문 전 연락은 필수입니다.",
       },
       {
         question: "어떤 채널로 문의하는 게 가장 빠른가요?",

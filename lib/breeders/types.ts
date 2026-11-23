@@ -8,6 +8,7 @@ export type Breeder = {
   gender: BreederGender;
   stage: BreederStage;
   morph: string | null;
+  price: number | null;
   father_id: string | null;
   mother_id: string | null;
   description: string | null;

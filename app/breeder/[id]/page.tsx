@@ -45,8 +45,13 @@ export default async function BreederDetailPage({ params }: Props) {
   const entry = await getBreeder(id);
   if (!entry) notFound();
 
-  const infoRows: { label: string; value: string; href?: string }[] = [
+  const infoRows: { label: string; value: string; href?: string; accent?: boolean }[] = [
     { label: "브리더 구분", value: "GECODE" },
+    {
+      label: "분양가",
+      value: entry.price != null ? `${entry.price.toLocaleString("ko-KR")}원` : "가격 문의",
+      accent: true,
+    },
     { label: "성별", value: genderLabel[entry.gender] },
     { label: "성장 단계", value: stageLabel[entry.stage] },
     { label: "모프", value: entry.morph ?? "미등록" },
@@ -99,7 +104,7 @@ export default async function BreederDetailPage({ params }: Props) {
           {infoRows.map((row) => (
             <div key={row.label} className="flex gap-10 border-b border-black/10 py-5 lg:py-7">
               <dt className="w-32 shrink-0 text-base font-bold sm:w-40">{row.label}</dt>
-              <dd className="text-base">
+              <dd className={`text-base ${row.accent ? "font-bold text-accent" : ""}`}>
                 {row.href ? (
                   <Link
                     href={row.href}

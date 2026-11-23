@@ -7,6 +7,11 @@ import { createClient } from "@/lib/supabase/server";
 import { parseBreederFormData, type BreederFormState } from "@/lib/breeders/schema";
 
 const BUCKET = "breeders";
+// createImageUploadTicket으로 발급한 경로만 허용한다(모두 "<uuid>.jpg" 형태).
+// 실제 용량/형식 제한은 Supabase Storage 버킷 설정(file_size_limit, allowed_mime_types)에서 강제된다.
+// supabase/migrations/0007_breeder_bucket_limits.sql 참고.
+const IMAGE_PATH_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.jpg$/i;
 
 async function requireUser() {
   const supabase = await createClient();
@@ -17,22 +22,34 @@ async function requireUser() {
   return supabase;
 }
 
-async function uploadImage(
-  supabase: Awaited<ReturnType<typeof createClient>>,
-  file: File,
-) {
-  const ext = file.name.split(".").pop() || "jpg";
-  const path = `${randomUUID()}.${ext}`;
+/**
+ * 브라우저가 Supabase Storage에 직접 업로드할 수 있도록 서명된 업로드 URL을 발급한다.
+ * 실제 이미지 바이트는 이 서버(Vercel)를 거치지 않고 브라우저 → Supabase로 바로 전송되므로
+ * 서버 액션/Vercel의 요청 본문 크기 제한과 무관하다.
+ */
+export async function createImageUploadTicket(): Promise<
+  { path: string; token: string } | { error: string }
+> {
+  const supabase = await requireUser();
+  const path = `${randomUUID()}.jpg`;
 
-  const { error } = await supabase.storage.from(BUCKET).upload(path, file, {
-    contentType: file.type || undefined,
-  });
-
-  if (error) {
-    throw new Error(`이미지 업로드에 실패했습니다: ${error.message}`);
+  const { data, error } = await supabase.storage.from(BUCKET).createSignedUploadUrl(path);
+  if (error || !data) {
+    return { error: "업로드 준비에 실패했습니다." };
   }
 
+  return { path: data.path, token: data.token };
+}
+
+function publicUrlFromPath(supabase: Awaited<ReturnType<typeof createClient>>, path: string) {
   return supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+}
+
+/** 폼에 담긴 imagePath가 createImageUploadTicket이 발급한 형식인지 확인한다. */
+function resolveImagePath(formData: FormData): string | null {
+  const path = formData.get("imagePath");
+  if (typeof path !== "string" || !IMAGE_PATH_PATTERN.test(path)) return null;
+  return path;
 }
 
 function extractStoragePath(imageUrl: string | null) {
@@ -69,19 +86,13 @@ export async function createBreeder(
     };
   }
 
-  const file = formData.get("image");
-  if (!(file instanceof File) || file.size === 0) {
+  const imagePath = resolveImagePath(formData);
+  if (!imagePath) {
     return { error: "사진을 등록해주세요." };
   }
+  const imageUrl = publicUrlFromPath(supabase, imagePath);
 
-  let imageUrl: string | null = null;
-  try {
-    imageUrl = await uploadImage(supabase, file);
-  } catch (error) {
-    return { error: error instanceof Error ? error.message : "이미지 업로드에 실패했습니다." };
-  }
-
-  const { name, englishName, gender, stage, morph, fatherId, motherId, description, displayOrder, isPublished } =
+  const { name, englishName, gender, stage, morph, price, fatherId, motherId, description, displayOrder, isPublished } =
     parsed.data;
 
   const { error } = await supabase.from("breeders").insert({
@@ -90,6 +101,7 @@ export async function createBreeder(
     gender,
     stage,
     morph,
+    price,
     father_id: fatherId,
     mother_id: motherId,
     description,
@@ -136,14 +148,10 @@ export async function updateBreeder(
   const previousImageUrl = existing?.image_url ?? null;
   let imageUrl = previousImageUrl;
   let uploadedImageUrl: string | null = null;
-  const file = formData.get("image");
+  const newImagePath = resolveImagePath(formData);
 
-  if (file instanceof File && file.size > 0) {
-    try {
-      uploadedImageUrl = await uploadImage(supabase, file);
-    } catch (error) {
-      return { error: error instanceof Error ? error.message : "이미지 업로드에 실패했습니다." };
-    }
+  if (newImagePath) {
+    uploadedImageUrl = publicUrlFromPath(supabase, newImagePath);
     imageUrl = uploadedImageUrl;
   }
 
@@ -152,7 +160,7 @@ export async function updateBreeder(
     return { error: "사진을 등록해주세요." };
   }
 
-  const { name, englishName, gender, stage, morph, fatherId, motherId, description, displayOrder, isPublished } =
+  const { name, englishName, gender, stage, morph, price, fatherId, motherId, description, displayOrder, isPublished } =
     parsed.data;
 
   if (fatherId === id || motherId === id) {
@@ -168,6 +176,7 @@ export async function updateBreeder(
       gender,
       stage,
       morph,
+      price,
       father_id: fatherId,
       mother_id: motherId,
       description,
