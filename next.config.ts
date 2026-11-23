@@ -1,14 +1,13 @@
 import type { NextConfig } from "next";
 
-// 인라인 스크립트는 사용하지 않지만, AOS 애니메이션 라이브러리가 요소에 인라인 style 속성을
-// 직접 설정하므로 style-src에는 'unsafe-inline'이 필요하다.
-// 개발 모드(next dev)는 React가 서버 에러 스택을 재구성하는 데 eval을 사용하므로
-// script-src에 'unsafe-eval'이 필요하다(프로덕션 빌드는 eval을 쓰지 않아 불필요).
+// Next.js 개발 서버(next dev)는 CSP와 충돌하는 방식(eval, HMR 관련 인라인 처리 등)을 써서
+// dev 모드에서는 CSP 자체를 적용하지 않는다. 개발 환경은 외부에 노출되지 않으므로
+// 보안상 문제가 없고, 실제로 지켜야 할 대상인 프로덕션 빌드에는 그대로 적용된다.
 const isDev = process.env.NODE_ENV === "development";
 
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
-  `script-src 'self'${isDev ? " 'unsafe-eval'" : ""}`,
+  "script-src 'self'",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https://*.supabase.co",
   "font-src 'self' data:",
@@ -20,7 +19,7 @@ const CONTENT_SECURITY_POLICY = [
 ].join("; ");
 
 const SECURITY_HEADERS = [
-  { key: "Content-Security-Policy", value: CONTENT_SECURITY_POLICY },
+  ...(isDev ? [] : [{ key: "Content-Security-Policy", value: CONTENT_SECURITY_POLICY }]),
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "X-Frame-Options", value: "DENY" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
