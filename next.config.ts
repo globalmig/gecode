@@ -8,6 +8,7 @@ const CONTENT_SECURITY_POLICY = [
   "img-src 'self' data: https://*.supabase.co",
   "font-src 'self' data:",
   "connect-src 'self' https://*.supabase.co",
+  "frame-src 'self' https://www.google.com https://maps.google.com",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

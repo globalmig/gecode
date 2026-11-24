@@ -38,6 +38,8 @@ export default function Cta() {
         <div className="mt-2 flex flex-col items-center gap-3 lg:flex-row">
           <Link
             href={kakaoHref}
+            target="_blank"
+            rel="noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-base font-medium text-black transition-opacity hover:opacity-90 sm:px-8"
           >
             카카오톡으로 문의하기

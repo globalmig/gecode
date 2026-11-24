@@ -72,6 +72,8 @@ export default function Header() {
               <Link
                 href={kakaoHref}
                 aria-label="카카오 상담하기"
+                target="_blank"
+                rel="noreferrer"
                 className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-brand-yellow text-brand-ink transition-opacity hover:opacity-90"
               >
                 <KakaoIcon className="h-5 w-5" />
@@ -107,6 +109,8 @@ export default function Header() {
               <Link
                 href={kakaoHref}
                 aria-label="카카오 상담하기"
+                target="_blank"
+                rel="noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-yellow text-brand-ink transition-opacity hover:opacity-90"
               >
                 <KakaoIcon className="h-4.5 w-4.5" />

@@ -24,8 +24,6 @@ export default function Hero() {
             고유한 아름다움이 있습니다.
           </h1>
           <p
-            data-aos="fade-up"
-            data-aos-delay="150"
             className="mt-4 text-sm leading-relaxed text-white/85 sm:mt-5 sm:text-lg lg:text-xl"
           >
             체계적인 코드별 혈통 관리와 누대 브리딩을 통해

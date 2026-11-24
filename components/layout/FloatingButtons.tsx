@@ -31,6 +31,8 @@ export default function FloatingButtons() {
       <Link
         href={kakaoHref}
         aria-label="카카오 상담"
+        target="_blank"
+        rel="noreferrer"
         className={`${BUTTON_BASE} bg-brand-yellow text-brand-ink`}
       >
         <KakaoIcon className="h-5.5 w-5.5 sm:h-6 sm:w-6" />
