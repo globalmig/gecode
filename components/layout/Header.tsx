@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { KAKAO_HREF, PHONE_HREF } from "@/lib/contact";
+import { PHONE_HREF } from "@/lib/contact";
 import { siteConfig } from "@/lib/seo/config";
 import { KakaoIcon, PhoneIcon, InstagramIcon } from "@/components/common/icons";
 import Logo from "@/components/common/Logo";
@@ -23,6 +23,7 @@ export default function Header() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const instagramHref = siteConfig.contact.instagramUrl || "#";
+  const kakaoHref = siteConfig.contact.kakaoUrl || "#";
 
   // 홈 화면은 상단에서 투명 배경으로 시작하므로, 스크롤 시에만 흰 배경으로 전환한다.
   useEffect(() => {
@@ -69,7 +70,7 @@ export default function Header() {
           {isLight ? (
             <>
               <Link
-                href={KAKAO_HREF}
+                href={kakaoHref}
                 aria-label="카카오 상담하기"
                 className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-brand-yellow text-brand-ink transition-opacity hover:opacity-90"
               >
@@ -104,7 +105,7 @@ export default function Header() {
           ) : (
             <>
               <Link
-                href={KAKAO_HREF}
+                href={kakaoHref}
                 aria-label="카카오 상담하기"
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-yellow text-brand-ink transition-opacity hover:opacity-90"
               >

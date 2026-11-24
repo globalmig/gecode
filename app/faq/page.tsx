@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/common/JsonLd";
 import FaqAccordion from "@/components/domain/FaqAccordion";
-import { siteConfig } from "@/lib/seo/config";
+import { siteConfig, ogImages } from "@/lib/seo/config";
 import { breadcrumbJsonLd, faqPageJsonLd } from "@/lib/seo/jsonld";
 import { FAQ_CATEGORIES } from "./content";
 
@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     description:
       "분양 문의, 배송과 직거래, 혈통과 모프, 건강보증·교환·환불까지 게코드에 자주 묻는 질문을 모았습니다.",
     url: "/faq",
+    images: ogImages("FAQ"),
   },
 };
 

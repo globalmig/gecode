@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/common/JsonLd";
 import CareSheetTabs from "@/components/domain/CareSheetTabs";
-import { siteConfig } from "@/lib/seo/config";
+import { siteConfig, ogImages } from "@/lib/seo/config";
 import { breadcrumbJsonLd, careSheetArticleJsonLd } from "@/lib/seo/jsonld";
 import { CARE_SHEET_SECTIONS, CARE_SHEET_SUMMARY_STATS } from "./content";
 
@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     description:
       "기본 환경부터 먹이, 위생, 번식, 핸들링까지 크레스티드 게코 사육에 필요한 모든 정보를 확인하세요.",
     url: "/care-sheet",
+    images: ogImages("케어시트"),
   },
 };
 

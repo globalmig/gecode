@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/common/JsonLd";
-import { siteConfig } from "@/lib/seo/config";
+import { siteConfig, ogImages } from "@/lib/seo/config";
 import { breadcrumbJsonLd } from "@/lib/seo/jsonld";
 import { getBreeder } from "@/lib/breeders/queries";
 import { genderLabel, stageLabel } from "@/lib/breeders/types";
@@ -17,12 +17,28 @@ export const instant = false;
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
+// 잘못되었거나 삭제된 개체 id로 들어온 공유 링크도 빈 미리보기 대신 목록 페이지 수준의
+// 설명/이미지를 보여주도록 하는 공용 폴백.
+const FALLBACK_METADATA: Metadata = {
+  title: "브리더 소개",
+  description:
+    "이름과 성별, 부모 개체로 게코드의 크레스티드 게코 브리더(개체)를 검색해보세요.",
+  alternates: { canonical: "/breeder" },
+  openGraph: {
+    title: `브리더 소개 | ${siteConfig.name}`,
+    description:
+      "이름과 성별, 부모 개체로 게코드의 크레스티드 게코 브리더(개체)를 검색해보세요.",
+    url: "/breeder",
+    images: ogImages("브리더 소개"),
+  },
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  if (!UUID_PATTERN.test(id)) return { title: "브리더 소개" };
+  if (!UUID_PATTERN.test(id)) return FALLBACK_METADATA;
 
   const entry = await getBreeder(id);
-  if (!entry) return { title: "브리더 소개" };
+  if (!entry) return FALLBACK_METADATA;
 
   const description = `게코드 브리더 ${entry.name}${entry.english_name ? `(${entry.english_name})` : ""}의 성별, 모프, 부모 개체 정보를 확인하세요.`;
 
@@ -34,6 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${entry.name} | ${siteConfig.name}`,
       description,
       url: `/breeder/${entry.id}`,
+      images: ogImages(entry.name),
     },
   };
 }

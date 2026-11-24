@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/common/JsonLd";
-import { siteConfig } from "@/lib/seo/config";
+import { siteConfig, ogImages } from "@/lib/seo/config";
 import { breadcrumbJsonLd, breederCollectionJsonLd } from "@/lib/seo/jsonld";
 import BreederBrowser from "@/components/breeder/BreederBrowser";
 import { listBreeders } from "@/lib/breeders/queries";
@@ -19,6 +19,7 @@ export const metadata: Metadata = {
     description:
       "이름과 성별, 부모 개체로 게코드의 크레스티드 게코 브리더(개체)를 검색해보세요.",
     url: "/breeder",
+    images: ogImages("브리더 소개"),
   },
 };
 

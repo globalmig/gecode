@@ -1,4 +1,4 @@
-import { KAKAO_HREF, PHONE_NUMBER } from "@/lib/contact";
+import { PHONE_NUMBER } from "@/lib/contact";
 import { siteConfig } from "@/lib/seo/config";
 import { KakaoIcon, InstagramIcon } from "@/components/common/icons";
 import Link from "next/link";
@@ -29,6 +29,7 @@ const INFO_ROWS = [
 
 export default function AboutLocation() {
   const instagramHref = siteConfig.contact.instagramUrl || "#";
+  const kakaoHref = siteConfig.contact.kakaoUrl || "#";
 
   return (
     <section className="w-full bg-white py-16 sm:py-20 lg:py-28">
@@ -71,7 +72,7 @@ export default function AboutLocation() {
               <dt className="font-semibold sm:text-lg">SNS 채널</dt>
               <dd className="flex items-center gap-3">
                 <Link
-                  href={KAKAO_HREF}
+                  href={kakaoHref}
                   aria-label="카카오 상담하기"
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-yellow text-brand-ink transition-opacity hover:opacity-90"
                 >

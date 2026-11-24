@@ -1,6 +1,6 @@
 "use client";
 
-import { KAKAO_HREF, PHONE_HREF } from "@/lib/contact";
+import { PHONE_HREF } from "@/lib/contact";
 import { siteConfig } from "@/lib/seo/config";
 import { KakaoIcon, PhoneIcon, InstagramIcon } from "@/components/common/icons";
 import Link from "next/link";
@@ -14,6 +14,7 @@ function scrollToTop() {
 
 export default function FloatingButtons() {
   const instagramHref = siteConfig.contact.instagramUrl || "#";
+  const kakaoHref = siteConfig.contact.kakaoUrl || "#";
 
   return (
     <div className="fixed bottom-4 right-4 z-40 flex flex-col gap-2.5 sm:bottom-6 sm:right-6 sm:gap-3 lg:bottom-10 lg:right-10">
@@ -28,7 +29,7 @@ export default function FloatingButtons() {
       </Link>
 
       <Link
-        href={KAKAO_HREF}
+        href={kakaoHref}
         aria-label="카카오 상담"
         className={`${BUTTON_BASE} bg-brand-yellow text-brand-ink`}
       >
