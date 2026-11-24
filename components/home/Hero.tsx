@@ -17,7 +17,6 @@ export default function Hero() {
       <div className="relative z-10 mx-auto w-full max-w-360 px-5 text-center">
         <div className="mx-auto max-w-sm text-white sm:max-w-xl lg:max-w-3xl">
           <h1
-            data-aos="fade-up"
             className="text-3xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-[64px] lg:leading-[1.15]"
           >
             개체마다 지닌
