@@ -4,6 +4,7 @@ import { siteConfig, ogImages } from "@/lib/seo/config";
 import { aboutPageJsonLd, breadcrumbJsonLd } from "@/lib/seo/jsonld";
 import AboutIntro from "@/components/about/AboutIntro";
 import AboutFeatures from "@/components/about/AboutFeatures";
+import AboutFacility from "@/components/about/AboutFacility";
 import AboutLocation from "@/components/about/AboutLocation";
 
 export const metadata: Metadata = {
@@ -34,6 +35,7 @@ export default function AboutPage() {
       />
       <AboutIntro />
       <AboutFeatures />
+      <AboutFacility />
       <AboutLocation />
     </>
   );

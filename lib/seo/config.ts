@@ -24,7 +24,7 @@ export const siteConfig = {
   ],
   contact: {
     phone: "010-3824-1006",
-    kakaoUrl: "http://pf.kakao.com/_xexgJvX",
+    kakaoUrl: "https://pf.kakao.com/_xexgJvX",
     instagramUrl: "https://www.instagram.com/gecode.official?cnvx=M2txMnk2aGF4d3Bp",
   },
   business: {

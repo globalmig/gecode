@@ -127,7 +127,7 @@ export default function Header() {
               <Link
                 href={PHONE_HREF}
                 aria-label="전화 상담하기"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-[#ccc] bg-black text-white transition-opacity hover:opacity-90"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black transition-opacity hover:opacity-90"
               >
                 <PhoneIcon className="h-8 w-8" />
               </Link>
