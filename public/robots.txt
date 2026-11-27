@@ -20,4 +20,4 @@ User-agent: Applebot-Extended
 Allow: /
 Disallow: /admin
 
-Sitemap: https://-----/sitemap.xml
+Sitemap: https://www.gecode.kr/sitemap.xml
